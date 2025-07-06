@@ -6,11 +6,13 @@ from pillow_heif import register_heif_opener
 def get_date_taken(image_path):
     image_file_ext = image_path.split(".")[-1]
     if image_file_ext == "HEIC":
-        pass
-    if image_file_ext == "PNG":
-        pass
-    if image_file_ext == "JPG" or image_file_ext == "JPEG":
+        return get_HEIC_date_taken(image_path)
+    elif image_file_ext == "PNG" or image_file_ext == "MP4" or image_file_ext == "MOV":
+        return get_date_taken_os(image_path)
+    elif image_file_ext == "JPG" or image_file_ext == "JPEG":
         return get_JPG_date_taken(image_path)
+    else:
+        return "File Format Not Supported"
     
 def get_JPG_date_taken(image_path):
     """
