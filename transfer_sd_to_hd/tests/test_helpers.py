@@ -1,7 +1,7 @@
 import datetime
 from src.helpers import get_date_taken_os, get_JPG_date_taken, get_HEIC_date_taken, get_date_taken
 
-PATH_TO_PHOTOS="tests/resources"
+PATH_TO_PHOTOS="tests/resources/phone"
 PATH_TO_GOOD_JPG="tests/resources/DCIM/100CANON/IMG_0032.JPG"
 
 # --------- Test get_date_taken_os for diff file types --------- 

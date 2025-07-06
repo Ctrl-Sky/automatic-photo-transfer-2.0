@@ -16,9 +16,14 @@ PATH="/Volumes/SD_CARD_1/DCIM/100CANON"
 # datetime_date = datetime.fromtimestamp(posix_date)
 # print(datetime_date)
 
-def get_HEIC_date_taken(image_path):
-    register_heif_opener()
-    image = Image.open(image_path)
-    print(image.getexif()[306])
+# def get_HEIC_date_taken(image_path):
+#     register_heif_opener()
+#     image = Image.open(image_path)
+#     print(image.getexif()[306])
 
-get_HEIC_date_taken("tests/resources/IMG_2525.HEIC")
+# get_HEIC_date_taken("tests/resources/IMG_2525.HEIC")
+
+with os.scandir("tests/resources/phone") as d:
+    for e in d:
+        if e.is_file():
+            print(e.name)

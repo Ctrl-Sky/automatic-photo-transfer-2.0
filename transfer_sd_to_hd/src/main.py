@@ -1,5 +1,6 @@
 import argparse
 import os
+from initialize import initialize_repo
 
 TABLE_PATH = "tables/sd_migration_table.csv"
 
@@ -17,3 +18,5 @@ if __name__ == "__main__":
     migration_name = args.migration_name
     end_on = args.end_on
     include_day = args.include_day
+
+    start_date = initialize_repo(sd_card_path, external_hd_path, TABLE_PATH)
