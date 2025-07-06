@@ -4,6 +4,14 @@ from PIL import Image, ExifTags
 from pillow_heif import register_heif_opener
 
 def get_date_taken(image_path):
+    """
+        Get the date a photo or video was taken, based on file extension and available metadata.
+
+        :param image_path: The full path including file name of the image or video
+        :type image_path: string
+        :return: a tuple with the source ("exif" or "os") and the datetime object of the date taken
+        :rtype: tuple[str, datetime.datetime]
+    """
     image_file_ext = image_path.split(".")[-1]
     if image_file_ext == "HEIC":
         return get_HEIC_date_taken(image_path)
@@ -16,12 +24,12 @@ def get_date_taken(image_path):
     
 def get_JPG_date_taken(image_path):
     """
-        Get the date a JPG photo was taken
-        
-        :param image_path: The full path including file name of the image
+        Get the date a JPG photo was taken using EXIF data if available, otherwise fallback to file creation date.
+
+        :param image_path: The full path including file name of the JPG image
         :type image_path: string
-        :return: the date the photo was taken
-        :rtype: string
+        :return: a tuple with the source ("exif" or "os") and the datetime object of the date taken
+        :rtype: tuple[str, datetime.datetime]
     """
     exif = Image.open(image_path)._getexif()
     if not exif:
@@ -35,6 +43,14 @@ def get_JPG_date_taken(image_path):
     return ("exif", datetime_date)
 
 def get_HEIC_date_taken(image_path):
+    """
+        Get the date a HEIC photo was taken using EXIF data if available, otherwise fallback to file creation date.
+
+        :param image_path: The full path including file name of the HEIC image
+        :type image_path: string
+        :return: a tuple with the source ("exif" or "os") and the datetime object of the date taken
+        :rtype: tuple[str, datetime.datetime]
+    """
     register_heif_opener()
     exif = Image.open(image_path).getexif()
     if not exif:
@@ -48,6 +64,14 @@ def get_HEIC_date_taken(image_path):
     return ("exif", datetime_date)
 
 def get_date_taken_os(image_path):
+    """
+        Get the file creation date from the operating system for images or videos without EXIF data.
+
+        :param image_path: The full path including file name of the image or video
+        :type image_path: string
+        :return: a tuple with the source ("os") and the datetime object of the file creation date
+        :rtype: tuple[str, datetime.datetime]
+    """
     posix_date = os.stat(image_path).st_birthtime
     datetime_date = datetime.fromtimestamp(posix_date)
     return ("os", datetime_date)
