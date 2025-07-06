@@ -1,7 +1,7 @@
 import argparse
 import os
 
-TABLE_PATH = "transfer_sd_to_hd/tables/sd_migration_table.csv"
+TABLE_PATH = "tables/sd_migration_table.csv"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

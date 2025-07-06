@@ -23,7 +23,7 @@ def initialize_table(table_path):
 
 def get_end_date_from_table(table_path, sd_card_path):
     """
-        If the sd card is referenced within the table, get the date of the most recent photos that was uploaded from that sd card
+        If the sd card is referenced within the table, get the date of the most recent photo that was uploaded from the sd card
 
         :param table_path: The full path to a csv table
         :type table_path: string
@@ -37,7 +37,7 @@ def get_end_date_from_table(table_path, sd_card_path):
         reversed_reader = reversed(list(csv.reader(file)))
         for row in reversed_reader:
             if row[1] == sd_card_name:
-                # Return the end_dir, end_image
+                # Return the end_date
                 return row[7]
         return "1990:03:24 12:34:56"
 
@@ -45,7 +45,7 @@ def initialize_repo(sd_card_path, external_hd_path, table_path):
     """
         Within the table path, if the SD card had a recorded migration, pulls the most recent photo that was migrated from the SD 
         card and uses that as references for the next starting point for the next migration.
-        If the SD card has never had a recorded migration, use the defual values as the starting point
+        If the SD card has never had a recorded migration, use the default values as the starting point
 
         :param sd_card_path: The full path to a sd card
         :type sd_card_path: string
