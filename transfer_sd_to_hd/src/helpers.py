@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
-from PIL import Image
+from PIL import Image, ExifTags
+from pillow_heif import register_heif_opener
 
 def get_date_taken(image_path):
     image_file_ext = image_path.split(".")[-1]
@@ -23,13 +24,25 @@ def get_JPG_date_taken(image_path):
     exif = Image.open(image_path)._getexif()
     if not exif:
         return get_date_taken_os(image_path)
-    
     try:
         date = exif[36867]
     except KeyError:
         return get_date_taken_os(image_path)
     
-    datetime_date = datetime.strptime(date, "%Y:%m-%d %H:%M:%S")
+    datetime_date = datetime.strptime(date, "%Y:%m:%d %H:%M:%S")
+    return ("exif", datetime_date)
+
+def get_HEIC_date_taken(image_path):
+    register_heif_opener()
+    exif = Image.open(image_path).getexif()
+    if not exif:
+        return get_date_taken_os(image_path)
+    try:
+        date = exif[306]
+    except KeyError:
+        return get_date_taken_os(image_path)
+
+    datetime_date = datetime.strptime(date, "%Y:%m:%d %H:%M:%S")
     return ("exif", datetime_date)
 
 def get_date_taken_os(image_path):

@@ -1,0 +1,1 @@
+brew install libheif (needed for pillow-heif)

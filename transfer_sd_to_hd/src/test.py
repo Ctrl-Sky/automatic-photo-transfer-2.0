@@ -1,5 +1,8 @@
 import os
-import datetime
+from datetime import datetime
+from PIL import Image, ExifTags
+from pillow_heif import register_heif_opener
+
 PATH="/Volumes/SD_CARD_1/DCIM/100CANON"
 # count = 0
 # for file in os.listdir(PATH):
@@ -9,4 +12,13 @@ PATH="/Volumes/SD_CARD_1/DCIM/100CANON"
 #     if count == 50:
 #         break
 
-print(os.stat(f"tests/resources/IMG_0034.HEIC"))
+# posix_date = os.stat("tests/resources/IMG_0034.HEIC").st_birthtime
+# datetime_date = datetime.fromtimestamp(posix_date)
+# print(datetime_date)
+
+def get_HEIC_date_taken(image_path):
+    register_heif_opener()
+    image = Image.open(image_path)
+    print(image.getexif()[306])
+
+get_HEIC_date_taken("tests/resources/IMG_2525.HEIC")
