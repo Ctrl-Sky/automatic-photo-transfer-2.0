@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from PIL import Image, ExifTags
 from pillow_heif import register_heif_opener
+import helpers
 
 PATH="/Volumes/SD_CARD_1/DCIM/100CANON"
 # count = 0
@@ -23,7 +24,11 @@ PATH="/Volumes/SD_CARD_1/DCIM/100CANON"
 
 # get_HEIC_date_taken("tests/resources/IMG_2525.HEIC")
 
-with os.scandir("tests/resources/phone") as d:
-    for e in d:
-        if e.is_file():
-            print(e.name)
+# with os.scandir("tests/resources/phone") as d:
+#     for e in d:
+#         if e.is_file():
+#             print(e.name)
+
+PATH_TO_PHOTOS="tests/resources/phone"
+
+print(helpers.get_date_taken(f"{PATH_TO_PHOTOS}/2025-transfer/Jul/Jul_06-exif/IMG_1137.PNG"))
