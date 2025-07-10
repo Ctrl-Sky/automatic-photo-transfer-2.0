@@ -3,16 +3,21 @@ import shutil
 from datetime import datetime
 from helpers import get_date_taken
 
+def is_lowest_date(lowest_date, image_date):
+    if image_date < lowest_date:
+        return True
+    else:
+        return False
         
 def image_before_end_on_date(end_on, image_date):
     if end_on == "":
         return True
     else:
         end_on = datetime.strptime(end_on, "%Y:%m:%d")
-        if image_date >= end_on:
-            return False
-        else:
+        if image_date < end_on:
             return True
+        else:
+            return False
         
 def copy_file_to_path(file, path):
     if not os.path.exists(path):
@@ -21,11 +26,9 @@ def copy_file_to_path(file, path):
     shutil.copy(file, path)
 
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
-    counter = 0
-    photos = [file for file in os.scandir(path_to_photos) if file.is_file()]
-    photos.sort(key=lambda photo: photo.os.stat(path_to_photos).st_birthtime)
-    
-    for photo in photos:
+    lowest_date = start_date
+
+    for photo in os.scandir(path_to_photos):
         if photo.is_file():
             path_to_photo = f"{path_to_photos}/{photo}"
             photo_info = get_date_taken(path_to_photo)
@@ -44,12 +47,13 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}-{method}"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
-
-                if counter == 0:
+                
+                # Write these values into csv table
+                if is_lowest_date(lowest_date, date):
                     starter_dir = path_to_photos
                     starter_image = photo
-                    starter_date = date.strftime("%Y:%m:%d %H:%M:%S")
-                    counter+=1
+                    starter_date = date
+                    lowest_date = date
 
                 end_dir = path_to_photo
                 end_image = photo
