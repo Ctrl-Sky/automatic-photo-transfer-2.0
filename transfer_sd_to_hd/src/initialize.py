@@ -38,9 +38,9 @@ def get_end_date_from_table(table_path, sd_card_path):
         reversed_reader = reversed(list(csv.reader(file)))
         for row in reversed_reader:
             if row[1] == sd_card_name:
-                # Return the end_date
-                return row[7]
-        return "1990:03:24 12:34:56"
+                # Return the end_dir, end_image, end_date
+                return [row[5], row[6], row[7]]
+        return ["Initial_dir", "Initial_img", "1990:03:24 12:34:56"]
 
 def initialize_repo(sd_card_path, external_hd_path, table_path):
     """
@@ -64,5 +64,5 @@ def initialize_repo(sd_card_path, external_hd_path, table_path):
     if not os.path.exists(table_path):
         initialize_table(table_path)
     
-    date = get_end_date_from_table(table_path, sd_card_path)
-    return datetime.strptime(date, "%Y:%m:%d %H:%M:%S")
+    image_info = get_end_date_from_table(table_path, sd_card_path)
+    return [image_info[0], image_info[1], datetime.strptime(image_info[2], "%Y:%m:%d %H:%M:%S")]
