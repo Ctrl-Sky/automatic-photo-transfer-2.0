@@ -59,5 +59,8 @@ def test_get_date_taken_MP4():
 def test_get_date_taken_MOV():
     assert get_date_taken(f"{PATH_TO_PHOTOS}/IMG_2687.MOV") == ("os", datetime.datetime(2025, 7, 5, 16, 23, 23))
 
-def test_get_date_take_unsupported():
+def test_get_date_taken_unsupported():
     assert get_date_taken(f"{PATH_TO_PHOTOS}/IMG_2687.WHAT") == "File Format Not Supported"
+
+# def test_get_date_taken_copied_file():
+#     assert get_date_taken(f"{PATH_TO_PHOTOS}/2025-transfer/Jul/Jul_06-exif/IMG_0034.HEIC")

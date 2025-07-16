@@ -1,4 +1,5 @@
 import os
+import subprocess
 from datetime import datetime
 from PIL import Image, ExifTags
 from pillow_heif import register_heif_opener
