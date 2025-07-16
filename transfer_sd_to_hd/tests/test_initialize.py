@@ -1,6 +1,7 @@
 import pytest
 import os
 import csv
+from datetime import datetime
 from initialize import initialize_table, get_end_date_from_table, initialize_repo
 
 CSV_PATH = "tests/resources/test.csv"
@@ -62,7 +63,7 @@ def test_initialize_repo_table_exist():
         writer = csv.writer(file)
         writer.writerow(["vacation_2024",os.path.basename(SD_CARD_1),f"{SD_CARD_1}/DCIM/100CANON","IMG_0001.JPG","2024-07-01 09:00:00",f"{SD_CARD_1}/DCIM/101CANON","IMG_8422.JPG","2024:07:02 10:19:42"])
 
-    assert initialize_repo(SD_CARD_1, HARD_DRIVE, CSV_PATH) == "2024:07:02 10:19:42"
+    assert initialize_repo(SD_CARD_1, HARD_DRIVE, CSV_PATH) == datetime(2024, 7, 2, 10, 19, 42)
 
     # Clean up test environment
     os.rmdir(HARD_DRIVE)
@@ -75,7 +76,7 @@ def test_initialize_repo_table_not_exist():
     # Initialize Environment for testing initialize_repo()
     os.makedirs(HARD_DRIVE)
 
-    assert initialize_repo(SD_CARD_1, HARD_DRIVE, CSV_PATH) == "1990:03:24 12:34:56"
+    assert initialize_repo(SD_CARD_1, HARD_DRIVE, CSV_PATH) == datetime(1990, 3, 24, 12, 34, 56)
 
     # Clean up environment
     os.rmdir(HARD_DRIVE)

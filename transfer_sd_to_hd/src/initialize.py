@@ -1,5 +1,6 @@
 import csv
 import os
+from datetime import datetime
 
 def does_path_exist(path):
     if not os.path.exists(path):
@@ -63,4 +64,5 @@ def initialize_repo(sd_card_path, external_hd_path, table_path):
     if not os.path.exists(table_path):
         initialize_table(table_path)
     
-    return get_end_date_from_table(table_path, sd_card_path)
+    date = get_end_date_from_table(table_path, sd_card_path)
+    return datetime.strptime(date, "%Y:%m:%d %H:%M:%S")

@@ -1,8 +1,8 @@
 import os
 import shutil
 from datetime import datetime
-from src.transfer_photos import is_lowest_date, image_before_end_on_date, copy_file_to_path
-from src.helpers import get_date_taken, convert_to_pretty_date
+from src.transfer_photos import is_lowest_date, image_before_end_on_date, copy_file_to_path, transfer_photos
+from src.helpers import get_date_taken
 
 PATH_TO_PHOTOS="tests/resources/phone"
 
@@ -45,3 +45,6 @@ def test_copy_file_path_dir_not_exists():
     # Clean up
     os.remove(path_to_copy)
     shutil.rmtree(f"{PATH_TO_PHOTOS}/2024-transfer")
+
+# def test_transfer_photos():
+#     start_date = 

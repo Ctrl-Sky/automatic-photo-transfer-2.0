@@ -57,9 +57,9 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
                 end_dir = path_to_photo
                 end_image = photo
-                end_date = date.strftime("%Y:%m:%d %H:%M:%S")
+                end_date = date
 
-    return [starter_dir, starter_image, starter_date, end_dir, end_image, end_date]
+    return [starter_dir, starter_image, starter_date.strftime("%Y:%m:%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y:%m:%d %H:%M:%S")]
 
                 
 
