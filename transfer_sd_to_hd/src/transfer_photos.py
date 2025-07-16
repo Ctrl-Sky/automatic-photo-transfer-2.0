@@ -9,7 +9,7 @@ def is_lowest_date(lowest_date, image_date):
     else:
         return False
         
-def image_before_end_on_date(end_on, image_date):
+def image_before_end_on_date(image_date, end_on):
     if end_on == "":
         return True
     else:
@@ -30,7 +30,8 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
     for photo in os.scandir(path_to_photos):
         if photo.is_file():
-            path_to_photo = f"{path_to_photos}/{photo}"
+            photo_name = photo.name
+            path_to_photo = f"{path_to_photos}/{photo_name}"
             photo_info = get_date_taken(path_to_photo)
 
             if photo_info == "File Format Not Supported":
@@ -51,12 +52,12 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 # Write these values into csv table
                 if is_lowest_date(lowest_date, date):
                     starter_dir = path_to_photos
-                    starter_image = photo
+                    starter_image = photo_name
                     starter_date = date
                     lowest_date = date
 
                 end_dir = path_to_photo
-                end_image = photo
+                end_image = photo_name
                 end_date = date
 
     return [starter_dir, starter_image, starter_date.strftime("%Y:%m:%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y:%m:%d %H:%M:%S")]

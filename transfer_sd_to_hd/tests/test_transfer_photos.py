@@ -13,13 +13,13 @@ def test_is_lowest_date_no_lower():
     assert is_lowest_date(datetime(2025, 5, 6, 2, 5, 3), datetime(2025, 5, 6, 2, 6, 3)) == False
 
 def test_image_before_end_on_date_empty():
-    assert image_before_end_on_date("", datetime(2025, 5, 6, 2, 5, 3)) == True
+    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "") == True
 
 def test_image_before_end_on_date_is_before():
-    assert image_before_end_on_date("2025:06:06", datetime(2025, 5, 6, 2, 5, 3)) == True
+    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "2025:06:06") == True
 
 def test_image_before_end_on_date_is_not_before():
-    assert image_before_end_on_date("2025:04:06", datetime(2025, 5, 6, 2, 5, 3)) == False
+    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "2025:04:06") == False
 
 def test_copy_file_to_path_dir_exists():
     path_to_copy_dir = f"{PATH_TO_PHOTOS}/2025-transfer/Jul/Jul_06-exif"
@@ -46,5 +46,10 @@ def test_copy_file_path_dir_not_exists():
     os.remove(path_to_copy)
     shutil.rmtree(f"{PATH_TO_PHOTOS}/2024-transfer")
 
-# def test_transfer_photos():
-#     start_date = 
+def test_transfer_photos_move_all():
+    start_date = datetime(2023, 5, 2)
+    external_hd_path = "tests/resources/external_hd"
+    path_to_photos = "tests/resources/DCIM/101CANON"
+    end_on = ""
+
+    assert transfer_photos(start_date, external_hd_path, path_to_photos, end_on) == "hi"

@@ -76,21 +76,3 @@ def get_date_taken_os(image_path):
     posix_date = os.stat(image_path).st_birthtime
     datetime_date = datetime.fromtimestamp(posix_date)
     return ("os", datetime_date)
-
-def convert_to_pretty_date(date, include_day=True):
-    """
-        Convert an exif date in the form YYYY:MM:DD HH:MM:SS into a pretty print of just month-year or month-date-year
-        
-        :param exif_date: A date in pulled from the EXIF
-        :type exif_date: string
-        :param include_date: Whether or not to return the date, default to False
-        :type include_date: bool, optional
-        :return: An easier to read string of the date
-        :rtype: string
-    """
-    datetime_obj = datetime.strptime(date)
-    
-    if include_day:
-        return datetime_obj.strftime("%b-%d-%Y")
-    else:
-        return datetime_obj.strftime("%b-%Y")
