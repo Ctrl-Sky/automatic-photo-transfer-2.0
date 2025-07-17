@@ -32,6 +32,22 @@ def copy_file_to_path(file, path):
     shutil.copy(file, path)
 
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
+    """
+    Transfers photos from the specified path to an external hard drive, organizing them by date.
+    Copies unsupported files to a separate folder.
+    Tracks the earliest and latest photo dates transferred.
+
+    :param start_date: The earliest date to transfer photos from (datetime object)
+    :type start_date: datetime
+    :param external_hd_path: The destination path on the external hard drive
+    :type external_hd_path: string
+    :param path_to_photos: The source path containing photos to transfer
+    :type path_to_photos: string
+    :param end_on: The latest date to transfer photos to (string, format "YYYY-MM-DD", optional)
+    :type end_on: string
+    :return: List containing info about the first and last transferred photo, or error message
+    :rtype: list or string
+    """
     # Arbitrary values meant to be replaced
     lowest_date = datetime(2100, 1, 1)
     highest_date = datetime(1990, 1, 1)
