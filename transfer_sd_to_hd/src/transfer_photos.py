@@ -26,9 +26,15 @@ def copy_file_to_path(file, path):
     shutil.copy(file, path)
 
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
+    photos = list(os.scandir(path_to_photos))
     lowest_date = start_date
 
-    for photo in os.scandir(path_to_photos):
+    # Set Initial Values
+    starter_dir = path_to_photos
+    starter_image = photos[0] if photos[0].is_file() else photos[1] # To avoid .DS_store dir
+    starter_date = get_date_taken(f"{starter_dir}/{starter_image}")
+
+    for photo in photos:
         if photo.is_file():
             photo_name = photo.name
             path_to_photo = f"{path_to_photos}/{photo_name}"
@@ -49,13 +55,14 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
                 
-                # Write these values into csv table
                 if is_lowest_date(lowest_date, date):
+                    # Starter values are written into the csv file for tracking
                     starter_dir = path_to_photos
                     starter_image = photo_name
                     starter_date = date
                     lowest_date = date
 
+                # End values are written into the csv file for tracking
                 end_dir = path_to_photo
                 end_image = photo_name
                 end_date = date

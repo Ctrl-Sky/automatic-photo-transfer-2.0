@@ -11,12 +11,12 @@ from transfer_photos import transfer_photos
 # print(get_creation_time_mac('/Volumes/SDCARD/file.jpg'))
 
 
-start_date = datetime(2023, 5, 2)
-external_hd_path = "tests/resources/external_hd"
+# start_date = datetime(2023, 5, 2)
+# external_hd_path = "tests/resources/external_hd"
 path_to_photos = "tests/resources/DCIM/101CANON"
-end_on = ""
+# end_on = ""
 
-transfer_photos(start_date, external_hd_path, path_to_photos, end_on=end_on)
+# transfer_photos(start_date, external_hd_path, path_to_photos, end_on=end_on)
 
-# for photo in os.scandir(path_to_photos):
-#     print(photo.name)
+photos = list(os.scandir(path_to_photos))
+print(photos)
