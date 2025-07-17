@@ -5,6 +5,8 @@ from src.transfer_photos import is_lowest_date, image_before_end_on_date, copy_f
 from src.helpers import get_date_taken
 
 PATH_TO_PHOTOS="tests/resources/phone"
+EXTERNAL_HD_PATH = "tests/resources/external_hd"
+PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
 
 def test_is_lowest_date_yes_lower():
     assert is_lowest_date(datetime(2025, 5, 6, 2, 5, 3), datetime(2025, 5, 6, 2, 4, 3)) == True
@@ -16,10 +18,10 @@ def test_image_before_end_on_date_empty():
     assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "") == True
 
 def test_image_before_end_on_date_is_before():
-    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "2025:06:06") == True
+    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "2025-06-06") == True
 
 def test_image_before_end_on_date_is_not_before():
-    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "2025:04:06") == False
+    assert image_before_end_on_date(datetime(2025, 5, 6, 2, 5, 3), "2025-04-06") == False
 
 def test_copy_file_to_path_dir_exists():
     path_to_copy_dir = f"{PATH_TO_PHOTOS}/2025-transfer/Jul/Jul_06"
@@ -56,24 +58,79 @@ def test_copy_file_path_maintains_birthtime():
 
 def test_transfer_photos_move_all():
     start_date = datetime(2023, 5, 2)
-    external_hd_path = "tests/resources/external_hd"
-    path_to_photos = "tests/resources/DCIM/101CANON"
     end_on = ""
 
-    assert transfer_photos(start_date, external_hd_path, path_to_photos, end_on) == ['tests/resources/DCIM/101CANON', 'IMG_0034.HEIC', '2024:06:30 14:06:31', 'tests/resources/DCIM/101CANON', 'IMG_2687.MOV', '2025:07:05 16:23:23']
-    assert os.path.exists(f"{external_hd_path}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
-    assert os.path.exists(f"{external_hd_path}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
-    assert os.path.exists(f"{external_hd_path}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
-    assert os.path.exists(f"{external_hd_path}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
-    assert os.path.exists(f"{external_hd_path}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
-    assert os.path.exists(f"{external_hd_path}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['tests/resources/DCIM/101CANON', 'IMG_0034.HEIC', '2024:06:30 14:06:31', 'tests/resources/DCIM/101CANON', 'IMG_2687.MOV', '2025:07:05 16:23:23']
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
 
     # Clean up
-    shutil.rmtree(f"{external_hd_path}/2024-transfer", ignore_errors=True)
-    shutil.rmtree(f"{external_hd_path}/2025-transfer", ignore_errors=True)
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2025-transfer", ignore_errors=True)
 
-# def test_transfer_photos_move_unsuppored_and_supported():
-#     # move supported and unsupported photos
+def test_transfer_photos_move_with_start_date_restriction():
+    start_date = datetime(2024, 10, 5)
+    end_on = ""
 
-# def test_transfer_photos_move_only_unsupported():
-#     # move only unsupported
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['tests/resources/DCIM/101CANON', 'IMG_4600.JPG', '2024:10:31 23:45:45', 'tests/resources/DCIM/101CANON', 'IMG_2687.MOV', '2025:07:05 16:23:23']
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
+
+    # Clean up
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2025-transfer", ignore_errors=True)
+
+def test_transfer_photos_move_with_end_on_restriction():
+    start_date = datetime(2023, 10, 5)
+    end_on = "2024-10-05"
+
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['tests/resources/DCIM/101CANON', 'IMG_0034.HEIC', '2024:06:30 14:06:31', 'tests/resources/DCIM/101CANON', 'JMTO8755.MP4', '2024:10:02 16:04:44']
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
+
+    # Clean up
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
+
+def test_transfer_photos_move_unsuppored_and_supported():
+    path_to_copy = f"{PATH_TO_PHOTOS_2}/IMG_0034.WHAT"
+    shutil.copy(f"{PATH_TO_PHOTOS_2}/IMG_0034.HEIC", path_to_copy)
+    start_date = datetime(2023, 10, 5)
+    end_on = ""
+
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['tests/resources/DCIM/101CANON', 'IMG_0034.HEIC', '2024:06:30 14:06:31', 'tests/resources/DCIM/101CANON', 'IMG_2687.MOV', '2025:07:05 16:23:23']
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/unsupported/IMG_0034.WHAT")
+
+    # Clean up
+    os.remove(path_to_copy)
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/2025-transfer", ignore_errors=True)
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/unsupported", ignore_errors=True)
+
+def test_transfer_photos_move_only_unsupported():
+    start_date = datetime(2023, 10, 5)
+    end_on = ""
+
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, "tests/resources/DCIM/102CANON", end_on) == "did not contain any supported files"
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/unsupported/IMG_0034.WHAT")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/unsupported/IMG_1137.WHAT")
+
+    # Clean up
+    shutil.rmtree(f"{EXTERNAL_HD_PATH}/unsupported", ignore_errors=True)

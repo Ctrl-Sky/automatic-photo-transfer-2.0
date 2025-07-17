@@ -19,7 +19,7 @@ def image_before_end_on_date(image_date, end_on):
     if end_on == "":
         return True
     else:
-        end_on = datetime.strptime(end_on, "%Y:%m:%d")
+        end_on = datetime.strptime(end_on, "%Y-%m-%d")
         if image_date < end_on:
             return True
         else:
@@ -79,7 +79,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
     try:
         csv_line = [starter_dir, starter_image, starter_date.strftime("%Y:%m:%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y:%m:%d %H:%M:%S")]
     except NameError:
-        return f"{path_to_photos} did not contain any supported files"
+        return "did not contain any supported files"
     
     return csv_line
 
