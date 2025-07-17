@@ -3,6 +3,12 @@ import shutil
 from datetime import datetime
 from helpers import get_date_taken
 
+def is_highest_date(highest_date, image_date):
+    if image_date > highest_date:
+        return True
+    else:
+        return False
+
 def is_lowest_date(lowest_date, image_date):
     if image_date < lowest_date:
         return True
@@ -26,19 +32,20 @@ def copy_file_to_path(file, path):
     shutil.copy(file, path)
 
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
+    # Arbitrary values meant to be replaced
+    lowest_date = datetime(2100, 1, 1)
+    highest_date = datetime(1990, 1, 1)
+
     photos = list(os.scandir(path_to_photos))
-    lowest_date = start_date
-
-    # Set Initial Values
-    starter_dir = path_to_photos
-    starter_image = photos[0] if photos[0].is_file() else photos[1] # To avoid .DS_store dir
-    starter_date = get_date_taken(f"{starter_dir}/{starter_image}")
-
     for photo in photos:
         if photo.is_file():
             photo_name = photo.name
             path_to_photo = f"{path_to_photos}/{photo_name}"
             photo_info = get_date_taken(path_to_photo)
+
+            # Directory included in other dir because of MacOS
+            if photo_name == ".DS_Store":
+                continue
 
             if photo_info == "File Format Not Supported":
                 copy_file_to_path(path_to_photo, f"{external_hd_path}/unsupported")
@@ -54,7 +61,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}-{method}"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
-                
+
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking
                     starter_dir = path_to_photos
@@ -62,12 +69,19 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     starter_date = date
                     lowest_date = date
 
-                # End values are written into the csv file for tracking
-                end_dir = path_to_photo
-                end_image = photo_name
-                end_date = date
+                if is_highest_date(highest_date, date):
+                    # End values are written into the csv file for tracking
+                    end_dir = path_to_photo
+                    end_image = photo_name
+                    end_date = date
+                    highest_date = date
 
-    return [starter_dir, starter_image, starter_date.strftime("%Y:%m:%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y:%m:%d %H:%M:%S")]
+    try:
+        csv_line = [starter_dir, starter_image, starter_date.strftime("%Y:%m:%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y:%m:%d %H:%M:%S")]
+    except NameError:
+        return f"{path_to_photos} did not contain any supported files"
+    
+    return csv_line
 
                 
 
