@@ -51,14 +51,14 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 copy_file_to_path(path_to_photo, f"{external_hd_path}/unsupported")
                 continue
             else:
-                method = photo_info[0]
+                # method = photo_info[0]
                 date = photo_info[1]
 
             if date > start_date and image_before_end_on_date(date, end_on):
                 year = date.strftime("%Y")
                 month = date.strftime("%b")
                 day = date.strftime("%d")
-                new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}-{method}"
+                new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
 
@@ -71,7 +71,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
                 if is_highest_date(highest_date, date):
                     # End values are written into the csv file for tracking
-                    end_dir = path_to_photo
+                    end_dir = path_to_photos
                     end_image = photo_name
                     end_date = date
                     highest_date = date
