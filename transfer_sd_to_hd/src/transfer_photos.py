@@ -79,7 +79,6 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             if photo_info == "File Format Not Supported":
                 unsupported_path = f"{external_hd_path}/unsupported"
                 copy_file_to_path(path_to_photo, unsupported_path)
-                set_new_creation_date(f"{unsupported_path}/{photo_name}", date)
                 continue
             else:
                 # method = photo_info[0]

@@ -28,7 +28,7 @@ def initialize_table(table_path):
     # Create csv file
     with open(table_path, 'w') as file:
         writer = csv.writer(file)
-        writer.writerow(["migration_name", "device", "start_dir", "start_image", "start_date", "end_dir", "end_image", "end_date"])
+        writer.writerow(["date_run", "migration_name", "device", "start_dir", "start_image", "start_date", "end_dir", "end_image", "end_date", "timezone"])
 
 def get_end_date_from_table(table_path, device):
     """
@@ -44,9 +44,9 @@ def get_end_date_from_table(table_path, device):
     with open(table_path, 'r') as file:
         reversed_reader = reversed(list(csv.reader(file)))
         for row in reversed_reader:
-            if row[1] == device:
+            if row[2] == device:
                 # Return the end_dir, end_image, end_date
-                return [row[5], row[6], row[7]]
+                return [row[6], row[7], row[8]]
         return ["Initial_dir", "Initial_img", "1990-03-24 12:34:56"]
 
 def initialize_repo(device, external_hd_path, table_path):
