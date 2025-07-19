@@ -67,8 +67,8 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             path_to_photo = f"{path_to_photos}/{photo_name}"
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
-            # if photo_name[:1] == "._":
-            #     continue
+            if photo_name[:2] == "._":
+                continue
 
             # .DS_Store is included in directories because of MacOS
             if photo_name == ".DS_Store":
@@ -77,7 +77,9 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             photo_info = get_date_taken(path_to_photo)
 
             if photo_info == "File Format Not Supported":
-                copy_file_to_path(path_to_photo, f"{external_hd_path}/unsupported")
+                unsupported_path = f"{external_hd_path}/unsupported"
+                copy_file_to_path(path_to_photo, unsupported_path)
+                set_new_creation_date(f"{unsupported_path}/{photo_name}", date)
                 continue
             else:
                 # method = photo_info[0]
