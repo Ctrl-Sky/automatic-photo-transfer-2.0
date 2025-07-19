@@ -1,7 +1,6 @@
 import csv
 import os
 from datetime import datetime, timezone
-from helpers import convert_to_month_year
 
 def write_to_migration_table(device, start_dir, start_image, start_date, end_dir, end_image, end_date, table_path, migration_name=""):
     if migration_name == "":

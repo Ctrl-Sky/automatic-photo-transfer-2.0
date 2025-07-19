@@ -108,7 +108,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     highest_date = date
 
     try:
-        csv_line = [starter_dir, starter_image, starter_date.strftime("%Y:%m:%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y:%m:%d %H:%M:%S")]
+        csv_line = [starter_dir, starter_image, starter_date.strftime("%Y-%m-%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y-%m-%d %H:%M:%S")]
     except NameError:
         return "did not contain any supported files"
     
