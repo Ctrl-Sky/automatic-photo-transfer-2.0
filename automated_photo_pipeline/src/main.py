@@ -10,11 +10,10 @@ PHONE_TABLE_PATH = "../tables/phone_migration_table.csv"
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--device")
-    parser.add_argument("--path_to_photos", default="/Volumes/SD_CARD_1")
+    parser.add_argument("--path_to_photos")
     parser.add_argument("--destination_path", default="/Volumes/kl")
     parser.add_argument("--migration_name", required=False, default="")
     parser.add_argument("--end_on", required=False, default="")
-    parser.add_argument("--include_day", required=False, default=True)
     args = parser.parse_args()
 
     device = args.device
@@ -22,7 +21,7 @@ if __name__ == "__main__":
     destination_path = args.destination_path
     migration_name = args.migration_name
     end_on = args.end_on
-    include_day = args.include_day
+    unique_path = path_to_photos
 
     if device == "camera":
         table_path = CAMERA_TABLE_PATH
@@ -32,5 +31,5 @@ if __name__ == "__main__":
         raise Exception(f"{device} is not supported")
 
     start_date = initialize_repo(path_to_photos, destination_path, table_path)
-    start_and_end_values = transfer_photos(start_date, destination_path, path_to_photos, end_on=end_on)
-    write_to_migration_table(device, start_and_end_values, table_path, migration_name=migration_name)
+    start_and_end_values = transfer_photos(start_date[2], destination_path, path_to_photos, end_on=end_on)
+    write_to_migration_table(unique_path, start_and_end_values, table_path, migration_name=migration_name)

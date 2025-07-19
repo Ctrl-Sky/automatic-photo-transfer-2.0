@@ -28,9 +28,9 @@ def initialize_table(table_path):
     # Create csv file
     with open(table_path, 'w') as file:
         writer = csv.writer(file)
-        writer.writerow(["date_run", "migration_name", "device", "start_dir", "start_image", "start_date", "end_dir", "end_image", "end_date", "timezone"])
+        writer.writerow(["date_run", "migration_name", "unique_path", "start_dir", "start_image", "start_date", "end_dir", "end_image", "end_date", "timezone"])
 
-def get_end_date_from_table(table_path, device):
+def get_end_date_from_table(table_path, unqiue_path):
     """
     Retrieves the most recent migration information for the specified device from the CSV table.
 
@@ -44,12 +44,12 @@ def get_end_date_from_table(table_path, device):
     with open(table_path, 'r') as file:
         reversed_reader = reversed(list(csv.reader(file)))
         for row in reversed_reader:
-            if row[2] == device:
+            if row[2] == unqiue_path:
                 # Return the end_dir, end_image, end_date
                 return [row[6], row[7], row[8]]
         return ["Initial_dir", "Initial_img", "1990-03-24 12:34:56"]
 
-def initialize_repo(device, external_hd_path, table_path):
+def initialize_repo(unique_path, external_hd_path, table_path):
     """
     Initializes the migration repository for the specified device.
     Checks if the external HD path exists, creates the migration table if necessary,
@@ -65,14 +65,11 @@ def initialize_repo(device, external_hd_path, table_path):
     :rtype: list
     :raises Exception: If the device is not supported or the external HD path does not exist.
     """
-    if device != "camera" and device != "phone":
-        raise Exception("That device is not currently being supported")
-
     does_path_exist(external_hd_path)
 
     # If table does not exist, create it and add headers
     if not os.path.exists(table_path):
         initialize_table(table_path)
     
-    image_info = get_end_date_from_table(table_path, device)
+    image_info = get_end_date_from_table(table_path, unique_path)
     return [image_info[0], image_info[1], datetime.strptime(image_info[2], "%Y-%m-%d %H:%M:%S")]
