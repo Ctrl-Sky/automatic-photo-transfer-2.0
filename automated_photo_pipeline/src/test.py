@@ -20,6 +20,8 @@ END_DATE = "2025-05-05 15:15:15"
 TABLE_PATH = "../tables/test.csv"
 MIGRATION_NAME = "test"
 
-# initialize_table(TABLE_PATH)
-write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
-write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
+# # initialize_table(TABLE_PATH)
+# write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
+# write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
+
+print(transfer_photos(START_DATE, "empty", "empty2", end_on=""))
