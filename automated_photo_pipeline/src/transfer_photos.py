@@ -61,7 +61,9 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
     highest_date = datetime(1990, 1, 1)
 
     photos = list(os.scandir(path_to_photos))
+    count = 0
     for photo in photos:
+        count += 1
         if photo.is_file():
             photo_name = photo.name
             path_to_photo = f"{path_to_photos}/{photo_name}"
@@ -106,6 +108,11 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     end_image = photo_name
                     end_date = date
                     highest_date = date
+
+        # Every 333 photos, let user know it is still looping
+        if count == 333:
+            count = 0
+            print("\nSearching photos...\n")
 
     try:
         csv_line = [starter_dir, starter_image, starter_date.strftime("%Y-%m-%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y-%m-%d %H:%M:%S")]

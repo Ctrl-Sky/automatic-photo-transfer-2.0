@@ -20,7 +20,7 @@ def test_initialize_table():
     with open(CSV_PATH, 'r') as file:
         read = csv.reader(file)
         for row in read:
-            assert row == ['date_run', 'migration_name', 'device', 'start_dir', 'start_image', 'start_date', 'end_dir', 'end_image', 'end_date', 'timezone']
+            assert row == ['date_run', 'migration_name', 'unique_path', 'start_dir', 'start_image', 'start_date', 'end_dir', 'end_image', 'end_date', 'timezone']
             break
 
     # Clean up test environment

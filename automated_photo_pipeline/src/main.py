@@ -33,3 +33,4 @@ if __name__ == "__main__":
     start_date = initialize_repo(path_to_photos, destination_path, table_path)
     start_and_end_values = transfer_photos(start_date[2], destination_path, path_to_photos, end_on=end_on)
     write_to_migration_table(unique_path, start_and_end_values, table_path, migration_name=migration_name)
+    print("Complete")

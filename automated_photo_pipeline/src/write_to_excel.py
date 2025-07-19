@@ -24,6 +24,7 @@ def write_to_migration_table(device, start_and_end_values, table_path, migration
     if not os.path.exists(table_path):
         raise Exception(f"{table_path} does not exist")
 
+    print(f"Writing to {table_path}")
     with open(table_path, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(data)
