@@ -1,6 +1,7 @@
 import os
 import shutil
 from datetime import datetime
+from subprocess import call
 from helpers import get_date_taken
 
 def is_highest_date(highest_date, image_date):
@@ -34,6 +35,10 @@ def copy_file_to_path(file, path):
     print(f"Copying {file} to {path}...")
     shutil.copy(file, path)
 
+def set_new_creation_date(path_to_file, new_date):
+    cmd = 'SetFile -d ' + f'"{new_date.strftime("%m/%d/%Y %H:%M:%S")}" ' + f'"{path_to_file}"'
+    call(cmd, shell=True)
+
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
     """
     Transfers photos from the specified path to an external hard drive, organizing them by date.
@@ -60,11 +65,16 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
         if photo.is_file():
             photo_name = photo.name
             path_to_photo = f"{path_to_photos}/{photo_name}"
-            photo_info = get_date_taken(path_to_photo)
 
-            # Directory included in other dir because of MacOS
+            # MacOS creates files that start with ._ to contain even more metadata of specific files
+            # if photo_name[:1] == "._":
+            #     continue
+
+            # .DS_Store is included in directories because of MacOS
             if photo_name == ".DS_Store":
                 continue
+
+            photo_info = get_date_taken(path_to_photo)
 
             if photo_info == "File Format Not Supported":
                 copy_file_to_path(path_to_photo, f"{external_hd_path}/unsupported")
@@ -80,6 +90,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
+                set_new_creation_date(path_to_photo, date)
 
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking
