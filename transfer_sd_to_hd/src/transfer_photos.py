@@ -19,7 +19,10 @@ def image_before_end_on_date(image_date, end_on):
     if end_on == "":
         return True
     else:
-        end_on = datetime.strptime(end_on, "%Y-%m-%d")
+        try:
+            end_on = datetime.strptime(end_on, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            end_on = datetime.strptime(end_on, "%Y-%m-%d")
         if image_date < end_on:
             return True
         else:
