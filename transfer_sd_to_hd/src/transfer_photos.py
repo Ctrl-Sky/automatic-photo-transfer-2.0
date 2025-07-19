@@ -37,6 +37,7 @@ def copy_file_to_path(file, path):
 
 def set_new_creation_date(path_to_file, new_date):
     cmd = 'SetFile -d ' + f'"{new_date.strftime("%m/%d/%Y %H:%M:%S")}" ' + f'"{path_to_file}"'
+    print(cmd)
     call(cmd, shell=True)
 
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
@@ -90,7 +91,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
-                set_new_creation_date(path_to_photo, date)
+                set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)
 
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking
