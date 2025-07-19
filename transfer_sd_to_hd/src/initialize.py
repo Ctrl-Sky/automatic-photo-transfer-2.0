@@ -3,15 +3,23 @@ import os
 from datetime import datetime
 
 def does_path_exist(path):
+    """
+    Checks if the given path exists. Raises an Exception if it does not.
+
+    :param path: The path to check.
+    :type path: str
+    :raises Exception: If the path does not exist.
+    """
     if not os.path.exists(path):
         raise Exception(f"{path} does not exist")
 
 def initialize_table(table_path):
     """
-        Takes a path to a csv file and if it doesn't exist, creates the file and adds the header
+    Creates a CSV file at the specified path with the appropriate header if it does not exist.
+    Also creates any necessary parent directories.
 
-        :param table_path: The full path including the file name to a csv table
-        :type table_path: string
+    :param table_path: The full path, including the file name, to the CSV table.
+    :type table_path: str
     """
     # Create Parent Directories
     if os.path.dirname(table_path) != "" and not os.path.exists(os.path.dirname(table_path)):
@@ -24,14 +32,14 @@ def initialize_table(table_path):
 
 def get_end_date_from_table(table_path, device):
     """
-        If the sd card is referenced within the table, get the date of the most recent photo that was uploaded from the sd card
+    Retrieves the most recent migration information for the specified device from the CSV table.
 
-        :param table_path: The full path to a csv table
-        :type table_path: string
-        :param sd_card_path: The full path to a sd card
-        :type sd_card_path: string
-        :return: date of photo most recently uploaded
-        :rtype: string
+    :param table_path: The full path to the CSV table.
+    :type table_path: str
+    :param device: The device name to look for ("camera" or "phone").
+    :type device: str
+    :return: A list containing [end_dir, end_image, end_date] of the most recent migration, or default values if not found.
+    :rtype: list[str]
     """
     with open(table_path, 'r') as file:
         reversed_reader = reversed(list(csv.reader(file)))
@@ -43,18 +51,19 @@ def get_end_date_from_table(table_path, device):
 
 def initialize_repo(device, external_hd_path, table_path):
     """
-        Within the table path, if the SD card had a recorded migration, pulls the most recent photo that was migrated from the SD 
-        card and uses that as references for the next starting point for the next migration.
-        If the SD card has never had a recorded migration, use the default values as the starting point
+    Initializes the migration repository for the specified device.
+    Checks if the external HD path exists, creates the migration table if necessary,
+    and retrieves the most recent migration information for the device.
 
-        :param sd_card_path: The full path to a sd card
-        :type sd_card_path: string
-        :param external_hd_path: The full path to a external hd
-        :type external_hd_path: string
-        :param table_path: The full path to a csv table
-        :type table_path: string
-        :return: date of photo most recently uploaded
-        :rtype: string
+    :param device: The device name ("camera" or "phone").
+    :type device: str
+    :param external_hd_path: The full path to the external hard drive.
+    :type external_hd_path: str
+    :param table_path: The full path to the CSV table.
+    :type table_path: str
+    :return: A list containing [end_dir, end_image, end_date as datetime] of the most recent migration.
+    :rtype: list
+    :raises Exception: If the device is not supported or the external HD path does not exist.
     """
     if device != "camera" and device != "phone":
         raise Exception("That device is not currently being supported")
