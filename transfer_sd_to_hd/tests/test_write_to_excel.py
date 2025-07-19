@@ -15,7 +15,8 @@ MIGRATION_NAME = "test"
 
 def test_appending_data():
     initialize_table(TABLE_PATH)
-    write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
+    start_and_end_values = [START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE]
+    write_to_migration_table(DEVICE, start_and_end_values, TABLE_PATH)
 
     with open(TABLE_PATH, 'r') as file:
         line = file.readline()

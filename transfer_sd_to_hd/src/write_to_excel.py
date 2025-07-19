@@ -2,7 +2,14 @@ import csv
 import os
 from datetime import datetime, timezone
 
-def write_to_migration_table(device, start_dir, start_image, start_date, end_dir, end_image, end_date, table_path, migration_name=""):
+def write_to_migration_table(device, start_and_end_values, table_path, migration_name=""):
+    start_dir = start_and_end_values[0]
+    start_image = start_and_end_values[1]
+    start_date = start_and_end_values[2]
+    end_dir = start_and_end_values[3]
+    end_image = start_and_end_values[4]
+    end_date = start_and_end_values[5]
+
     if migration_name == "":
         pretty_start = start_date.split()[0]
         pretty_end = end_date.split()[0]
