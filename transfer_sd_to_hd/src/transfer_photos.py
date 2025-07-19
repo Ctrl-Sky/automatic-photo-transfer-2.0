@@ -37,7 +37,6 @@ def copy_file_to_path(file, path):
 
 def set_new_creation_date(path_to_file, new_date):
     cmd = 'SetFile -d ' + f'"{new_date.strftime("%m/%d/%Y %H:%M:%S")}" ' + f'"{path_to_file}"'
-    print(cmd)
     call(cmd, shell=True)
 
 def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
