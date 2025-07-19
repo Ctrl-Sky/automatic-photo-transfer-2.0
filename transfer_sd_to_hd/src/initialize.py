@@ -56,7 +56,7 @@ def initialize_repo(device, external_hd_path, table_path):
         :return: date of photo most recently uploaded
         :rtype: string
     """
-    if device != "camera" or device != "phone":
+    if device != "camera" and device != "phone":
         raise Exception("That device is not currently being supported")
 
     does_path_exist(external_hd_path)

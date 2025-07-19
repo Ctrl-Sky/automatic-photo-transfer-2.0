@@ -61,7 +61,7 @@ def test_initialize_repo_table_exist():
     initialize_table(CSV_PATH)
     with open(CSV_PATH, 'a') as file:
         writer = csv.writer(file)
-        writer.writerow(["vacation_2024",CAMERA,f"{CAMERA}/DCIM/100CANON","IMG_0001.JPG","2024-07-01 09:00:00",f"{CAMERA}/DCIM/101CANON","IMG_8422.JPG","2024:07:02 10:19:42"])
+        writer.writerow(["vacation_2024",CAMERA,f"{CAMERA}/DCIM/100CANON","IMG_0001.JPG","2024-07-01 09:00:00",f"{CAMERA}/DCIM/101CANON","IMG_8422.JPG","2024-07-02 10:19:42"])
 
     assert initialize_repo(CAMERA, HARD_DRIVE, CSV_PATH) == [f"{CAMERA}/DCIM/101CANON","IMG_8422.JPG", datetime(2024, 7, 2, 10, 19, 42)]
 
