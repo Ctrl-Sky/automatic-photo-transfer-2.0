@@ -20,9 +20,9 @@ def initialize_table(table_path):
     # Create csv file
     with open(table_path, 'w') as file:
         writer = csv.writer(file)
-        writer.writerow(["migration_name", "sd_card_name", "start_dir", "start_image", "start_date", "end_dir", "end_image", "end_date"])
+        writer.writerow(["migration_name", "device", "start_dir", "start_image", "start_date", "end_dir", "end_image", "end_date"])
 
-def get_end_date_from_table(table_path, sd_card_path):
+def get_end_date_from_table(table_path, device):
     """
         If the sd card is referenced within the table, get the date of the most recent photo that was uploaded from the sd card
 
@@ -33,16 +33,15 @@ def get_end_date_from_table(table_path, sd_card_path):
         :return: date of photo most recently uploaded
         :rtype: string
     """
-    sd_card_name = os.path.basename(sd_card_path)
     with open(table_path, 'r') as file:
         reversed_reader = reversed(list(csv.reader(file)))
         for row in reversed_reader:
-            if row[1] == sd_card_name:
+            if row[1] == device:
                 # Return the end_dir, end_image, end_date
                 return [row[5], row[6], row[7]]
         return ["Initial_dir", "Initial_img", "1990:03:24 12:34:56"]
 
-def initialize_repo(sd_card_path, external_hd_path, table_path):
+def initialize_repo(device, external_hd_path, table_path):
     """
         Within the table path, if the SD card had a recorded migration, pulls the most recent photo that was migrated from the SD 
         card and uses that as references for the next starting point for the next migration.
@@ -57,12 +56,14 @@ def initialize_repo(sd_card_path, external_hd_path, table_path):
         :return: date of photo most recently uploaded
         :rtype: string
     """
-    does_path_exist(sd_card_path)
+    if device != "camera" or device != "phone":
+        raise Exception("That device is not currently being supported")
+
     does_path_exist(external_hd_path)
 
     # If table does not exist, create it and add headers
     if not os.path.exists(table_path):
         initialize_table(table_path)
     
-    image_info = get_end_date_from_table(table_path, sd_card_path)
-    return [image_info[0], image_info[1], datetime.strptime(image_info[2], "%Y:%m:%d %H:%M:%S")]
+    image_info = get_end_date_from_table(table_path, device)
+    return [image_info[0], image_info[1], datetime.strptime(image_info[2], "%Y-%m-%d %H:%M:%S")]
