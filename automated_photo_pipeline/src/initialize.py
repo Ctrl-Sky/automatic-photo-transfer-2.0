@@ -66,6 +66,7 @@ def initialize_repo(unique_path, external_hd_path, table_path):
     :raises Exception: If the device is not supported or the external HD path does not exist.
     """
     does_path_exist(external_hd_path)
+    does_path_exist(unique_path)
 
     # If table does not exist, create it and add headers
     if not os.path.exists(table_path):
