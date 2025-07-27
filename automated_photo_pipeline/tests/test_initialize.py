@@ -5,7 +5,7 @@ from datetime import datetime
 from initialize import initialize_table, get_end_date_from_table, initialize_repo
 
 CSV_PATH = "tests/resources/test.csv"
-CAMERA = "camera"
+CAMERA = "tests/resources/camera"
 PHONE = "phone"
 HARD_DRIVE = "tests/resources/HARD_DRIVE"
 
@@ -58,6 +58,7 @@ def test_initialize_repo_table_exist():
     '''
     # Initialize Environment for testing initialize_repo()
     os.makedirs(HARD_DRIVE)
+    os.makedirs(CAMERA)
     initialize_table(CSV_PATH)
     with open(CSV_PATH, 'a') as file:
         writer = csv.writer(file)
@@ -67,6 +68,7 @@ def test_initialize_repo_table_exist():
 
     # Clean up test environment
     os.rmdir(HARD_DRIVE)
+    os.rmdir(CAMERA)
     os.remove(CSV_PATH)
 
 def test_initialize_repo_table_not_exist():
@@ -75,9 +77,11 @@ def test_initialize_repo_table_not_exist():
     '''
     # Initialize Environment for testing initialize_repo()
     os.makedirs(HARD_DRIVE)
+    os.makedirs(CAMERA)
 
     assert initialize_repo(CAMERA, HARD_DRIVE, CSV_PATH) == ["Initial_dir", "Initial_img", datetime(1990, 3, 24, 12, 34, 56)]
 
     # Clean up environment
+    os.rmdir(CAMERA)
     os.rmdir(HARD_DRIVE)
     os.remove(CSV_PATH)

@@ -1,24 +1,32 @@
 #!/bin/bash
 
 # Keep up to date
-# git pull
+git pull
 
-# Install Dependencies
+# Move to correct directory
+cd automated_photo_pipeline
+
+# Activate virtual env and install dependencies
+brew install yq
 python3.12 -m venv .venv
-. .venv/bin/activate
-pip install -r requirements.txt
+source .venv/bin/activate
+# python3.12 -m pip install --upgrade pip setuptools # Needed for installing pillow-heif
+pip install -r ../requirements.txt
 
-# Get variables from job_description.txt
-# export COMPANY_NAME=$(python3.12 utils/get_company_name.py)
-# export JOB_TITLE=$(python3.12 utils/get_job_title.py)
+# Run test
+python3.12 -m pytest
 
-# Generate Resume and Cover Letter
-python3 src/main.py --device "camera" --path_to_photos "/Volumes/SD_CARD_1/DCIM/100CANON" --destination_path "/Volumes/kl" --end_on "2024-07-02 10:17:00"
-# Store and save resume and cover letter
-# bash cleanup_scripts/store_resume_and_cl.sh "${COMPANY_NAME}" "${JOB_TITLE}"
-# python3.12 cleanup_scripts/save_to_csv.py "${COMPANY_NAME}" "${JOB_TITLE}"
+# Get parameters from build_config.yaml
+YAML_FILE="../build_config.yaml"
+YAML_ROOT=".commands.execute-app"
 
-# echo "Application successfully executed"
+DEVICE=$(yq "$YAML_ROOT.device" $YAML_FILE)
+PATH_TO_PHOTOS=$(yq "$YAML_ROOT.path-to-photos" $YAML_FILE)
+DESTINATION=$(yq "$YAML_ROOT.destination-path" $YAML_FILE)
+END_ON=$(yq "$YAML_ROOT.end-on" $YAML_FILE)
+
+# Execute python script to transfer photos
+python3.12 src/main.py --device "$DEVICE" --path_to_photos "$PATH_TO_PHOTOS" --destination_path "$DESTINATION" --end_on "$END_ON"
 
 # Break down
 # deactivate

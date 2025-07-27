@@ -1,0 +1,9 @@
+commands:
+  execute-app:
+    # Can either be "camera" or "phone"
+    device: "camera"
+    path-to-photos: "/Volumes/SD_CARD_1/DCIM/101CANON"
+    destination-path: "/Volumes/kl"
+    # Must be in the form of YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
+    # Optional, leave blank if not needed
+    end-on:
