@@ -9,6 +9,7 @@ In the `build_config.yaml` file, you will find the parameters needed for this ap
 - destination-path
 - migration-name (optional)
 - end-on (optional)
+
 The device parameter will decide which table the app will write to. Currently, I have a `phone` and a `camera` option which will write and read from their respective tables. This is done to avoid any mix ups.
 
 The migration name is purely for user experience and will fill out one column in the CSV file. Is used to title specific migrations. It will default to (date_of_oldest_photo_taken)-(date_of_newest_photo_taken)
@@ -22,4 +23,5 @@ The current supported file types are:
 - HEIC
 - MP4
 - MOV
+
 Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted.
