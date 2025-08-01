@@ -1,1 +1,25 @@
-brew install libheif (needed for pillow-heif)
+# What This App Does
+This app is an automated standardization pipeline for transfering photos from one folder to another, keeping track of each migration in a CSV file. 
+
+My main purpose for this is to automate the process of moving photos from my SD card/Iphone into my external hard drive and organizing them. So I just need to plug in my destination and source and then give the application a run. It copies every photo from the source directory into the destination directory, organizing each into folders based on the date they were taken. Out of all the photos, it will note down the photo that was taken the most recently and write that date into the csv file. This will act as a save point. Now if I have to run it again, it will pull that date from the csv file, and only upload the photos that were taken after said date. 
+
+In the `build_config.yaml` file, you will find the parameters needed for this application:
+- device
+- path-to-photos
+- destination-path
+- migration-name (optional)
+- end-on (optional)
+The device parameter will decide which table the app will write to. Currently, I have a `phone` and a `camera` option which will write and read from their respective tables. This is done to avoid any mix ups.
+
+The migration name is purely for user experience and will fill out one column in the CSV file. Is used to title specific migrations. It will default to (date_of_oldest_photo_taken)-(date_of_newest_photo_taken)
+
+The `end-on`option takes a date value and acts as an optional stopping point for the application. Say you don't want to copy every photo and want to stop at a certain date, enter that date in the `end-on` option
+
+The current supported file types are:
+- JPEG
+- JPG
+- PNG
+- HEIC
+- MP4
+- MOV
+Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted.
