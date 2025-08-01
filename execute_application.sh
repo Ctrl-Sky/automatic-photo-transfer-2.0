@@ -23,10 +23,11 @@ YAML_ROOT=".commands.execute-app"
 DEVICE=$(yq "$YAML_ROOT.device" $YAML_FILE)
 PATH_TO_PHOTOS=$(yq "$YAML_ROOT.path-to-photos" $YAML_FILE)
 DESTINATION=$(yq "$YAML_ROOT.destination-path" $YAML_FILE)
+MIGRATION=$(yq "$YAML_ROOT.migration-name" $YAML_FILE)
 END_ON=$(yq "$YAML_ROOT.end-on" $YAML_FILE)
 
 # Execute python script to transfer photos
-python3.12 src/main.py --device "$DEVICE" --path_to_photos "$PATH_TO_PHOTOS" --destination_path "$DESTINATION" --end_on "$END_ON"
+python3.12 src/main.py --device "$DEVICE" --path_to_photos "$PATH_TO_PHOTOS" --destination_path "$DESTINATION" --migration_name "$MIGRATION" --end_on "$END_ON"
 
 # Break down
 # deactivate
