@@ -5,7 +5,7 @@ commands:
     path-to-photos: "/Volumes/SD_CARD_1/DCIM/101CANON"
     destination-path: "/Volumes/kl"
     # Optional, leave blank if not needed
-    migration-name:
+    migration-name: "New Table Test"
     # Must be in the form of YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
     # Optional, leave blank if not needed
     end-on:
