@@ -66,7 +66,6 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
         count += 1
         if photo.is_file():
             photo_name = photo.name
-            print(photo_name)
             path_to_photo = f"{path_to_photos}/{photo_name}"
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
