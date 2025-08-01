@@ -20,7 +20,7 @@ def test_initialize_table():
     with open(CSV_PATH, 'r') as file:
         read = csv.reader(file)
         for row in read:
-            assert row == ['date_run', 'migration_name', 'unique_path', 'start_dir', 'start_image', 'start_date', 'end_dir', 'end_image', 'end_date', 'timezone']
+            assert row == ['date_run', 'migration_name', 'unique_path', 'start_image', 'start_date', 'end_image', 'end_date', 'timezone']
             break
 
     # Clean up test environment
@@ -31,10 +31,10 @@ def test_get_end_date_exist():
     initialize_table(CSV_PATH)
     with open(CSV_PATH, 'a') as file:
         writer = csv.writer(file)
-        writer.writerow(['2025-05-05', "vacation_2024",CAMERA,"/DCIM/100CANON","IMG_0001.JPG","2024-07-01 09:00:00","/DCIM/101CANON","IMG_0150.JPG","2024-07-01 18:30:00", 'EST'])
+        writer.writerow(['2025-05-05', "vacation_2024",CAMERA,"IMG_0001.JPG","2024-07-01 09:00:00","IMG_0150.JPG","2024-07-01 18:30:00", 'EST'])
 
     # Test SD_CARD_NAME does exist in csv file
-    assert get_end_date_from_table(CSV_PATH, CAMERA) == ["/DCIM/101CANON", "IMG_0150.JPG", "2024-07-01 18:30:00"]
+    assert get_end_date_from_table(CSV_PATH, CAMERA) == "2024-07-01 18:30:00"
 
     # Clean up test environment
     os.remove(CSV_PATH)
@@ -44,10 +44,10 @@ def test_get_end_value_not_exist():
     initialize_table(CSV_PATH)
     with open(CSV_PATH, 'a') as file:
         writer = csv.writer(file)
-        writer.writerow(['2025-05-05', "vacation_2024",CAMERA,"/DCIM/100CANON","IMG_0001.JPG","2024-07-01 09:00:00","/DCIM/101CANON","IMG_0150.JPG","2024-07-01 18:30:00", 'EST'])
+        writer.writerow(['2025-05-05', "vacation_2024",CAMERA,"IMG_0001.JPG","2024-07-01 09:00:00","IMG_0150.JPG","2024-07-01 18:30:00", 'EST'])
 
     # Test SD_CARD_NAME does NOT exist in csv file
-    assert get_end_date_from_table(CSV_PATH, PHONE) == ["Initial_dir", "Initial_img", "1990-03-24 12:34:56"]
+    assert get_end_date_from_table(CSV_PATH, PHONE) == "1990-03-24 12:34:56"
 
     # Clean up test environment
     os.remove(CSV_PATH)
@@ -62,9 +62,9 @@ def test_initialize_repo_table_exist():
     initialize_table(CSV_PATH)
     with open(CSV_PATH, 'a') as file:
         writer = csv.writer(file)
-        writer.writerow(['2025-05-05', "vacation_2024",CAMERA,f"{CAMERA}/DCIM/100CANON","IMG_0001.JPG","2024-07-01 09:00:00",f"{CAMERA}/DCIM/101CANON","IMG_8422.JPG","2024-07-02 10:19:42", "EST"])
+        writer.writerow(['2025-05-05', "vacation_2024",CAMERA,"IMG_0001.JPG","2024-07-01 09:00:00","IMG_8422.JPG","2024-07-02 10:19:42", "EST"])
 
-    assert initialize_repo(CAMERA, HARD_DRIVE, CSV_PATH) == [f"{CAMERA}/DCIM/101CANON","IMG_8422.JPG", datetime(2024, 7, 2, 10, 19, 42)]
+    assert initialize_repo(CAMERA, HARD_DRIVE, CSV_PATH) == datetime(2024, 7, 2, 10, 19, 42)
 
     # Clean up test environment
     os.rmdir(HARD_DRIVE)
@@ -79,7 +79,7 @@ def test_initialize_repo_table_not_exist():
     os.makedirs(HARD_DRIVE)
     os.makedirs(CAMERA)
 
-    assert initialize_repo(CAMERA, HARD_DRIVE, CSV_PATH) == ["Initial_dir", "Initial_img", datetime(1990, 3, 24, 12, 34, 56)]
+    assert initialize_repo(CAMERA, HARD_DRIVE, CSV_PATH) == datetime(1990, 3, 24, 12, 34, 56)
 
     # Clean up environment
     os.rmdir(CAMERA)

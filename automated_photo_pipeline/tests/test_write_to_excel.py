@@ -15,13 +15,13 @@ MIGRATION_NAME = "test"
 
 def test_appending_data():
     initialize_table(TABLE_PATH)
-    start_and_end_values = [START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE]
+    start_and_end_values = [START_IMAGE, START_DATE, END_IMAGE, END_DATE]
     write_to_migration_table(DEVICE, start_and_end_values, TABLE_PATH)
 
     with open(TABLE_PATH, 'r') as file:
         line = file.readline()
         line = file.readline()
-        assert line.strip() == f'{datetime.now().strftime("%Y-%m-%d")},2024-05-05_2025-05-05,{DEVICE},{START_DIR},{START_IMAGE},{START_DATE},{END_DIR},{END_IMAGE},{END_DATE},{datetime.now(timezone.utc).astimezone().tzinfo}'
+        assert line.strip() == f'{datetime.now().strftime("%Y-%m-%d")},2024-05-05_2025-05-05,{DEVICE},{START_IMAGE},{START_DATE},{END_IMAGE},{END_DATE},{datetime.now(timezone.utc).astimezone().tzinfo}'
 
     # Clean up
     os.remove(TABLE_PATH)

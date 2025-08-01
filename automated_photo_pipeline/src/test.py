@@ -26,23 +26,32 @@ import os
 
 # print(transfer_photos(START_DATE, "empty", "empty2", end_on=""))
 
-from PIL import Image
-from PIL.ExifTags import TAGS
+# from PIL import Image
+# from PIL.ExifTags import TAGS
 
-# Load the image
-image = Image.open("/Volumes/kl/2025-transfer/Jul/Jul_13/IMG_4218.JPG")
+# # Load the image
+# image = Image.open("/Volumes/kl/2025-transfer/Jul/Jul_13/IMG_4218.JPG")
 
-# Extract EXIF data
-exif_data = image._getexif()
+# # Extract EXIF data
+# exif_data = image._getexif()
 
-# Convert EXIF tag IDs to readable names
-readable_exif = {}
-if exif_data:
-    for tag_id, value in exif_data.items():
-        tag = TAGS.get(tag_id, tag_id)
-        readable_exif[tag] = value
+# # Convert EXIF tag IDs to readable names
+# readable_exif = {}
+# if exif_data:
+#     for tag_id, value in exif_data.items():
+#         tag = TAGS.get(tag_id, tag_id)
+#         readable_exif[tag] = value
 
-# Filter relevant fields
-relevant_tags = ['DateTimeOriginal', 'DateTimeDigitized', 'DateTime']
-filtered_exif = {tag: readable_exif.get(tag, None) for tag in relevant_tags}
-print(filtered_exif)
+# # Filter relevant fields
+# relevant_tags = ['DateTimeOriginal', 'DateTimeDigitized', 'DateTime']
+# filtered_exif = {tag: readable_exif.get(tag, None) for tag in relevant_tags}
+# print(filtered_exif)
+
+PATH_TO_PHOTOS="tests/resources/phone"
+EXTERNAL_HD_PATH = "tests/resources/external_hd"
+PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
+
+start_date = datetime(2023, 5, 2)
+end_on = ""
+
+print(transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on))

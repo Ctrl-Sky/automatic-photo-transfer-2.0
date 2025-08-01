@@ -66,6 +66,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
         count += 1
         if photo.is_file():
             photo_name = photo.name
+            print(photo_name)
             path_to_photo = f"{path_to_photos}/{photo_name}"
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
@@ -97,14 +98,12 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking
-                    starter_dir = path_to_photos
                     starter_image = photo_name
                     starter_date = date
                     lowest_date = date
 
                 if is_highest_date(highest_date, date):
                     # End values are written into the csv file for tracking
-                    end_dir = path_to_photos
                     end_image = photo_name
                     end_date = date
                     highest_date = date
@@ -115,7 +114,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             print("\nSearching photos...\n")
 
     try:
-        csv_line = [starter_dir, starter_image, starter_date.strftime("%Y-%m-%d %H:%M:%S"), end_dir, end_image, end_date.strftime("%Y-%m-%d %H:%M:%S")]
+        csv_line = [starter_image, starter_date.strftime("%Y-%m-%d %H:%M:%S"), end_image, end_date.strftime("%Y-%m-%d %H:%M:%S")]
     except NameError:
         return "did not contain any supported files"
     
