@@ -86,6 +86,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
         count += 1
         if photo.is_file():
             photo_name = photo.name
+            photo_ext = photo_name.split(".")[-1]
             path_to_photo = f"{path_to_photos}/{photo_name}"
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
@@ -93,7 +94,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
                 continue
 
             # .DS_Store is included in directories because of MacOS, .AAE files are apple side car for photos edits
-            if photo_name == ".DS_Store" or path_to_photo.split(".")[1] == "AAE":
+            if photo_name == ".DS_Store" or photo_ext == "AAE":
                 continue
 
             photo_info = get_date_taken(path_to_photo)
@@ -113,10 +114,14 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}"
 
                 # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
-                if photo_name.split(".")[1] == "HEIC":
+                if photo_ext == "HEIC":
                     jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name, testing=testing)
                     photo_name = jpeg_photo_name
                     path_to_photo = f"{path_to_photos}/{photo_name}"
+
+                # Images from instagram will have incorrect birthtime, will move them to specific folder for manual organization
+                if "IMG_" not in photo_name and photo_ext == "JPG":
+                    new_path_to_photos = f"{external_hd_path}/ig_photos"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
                 set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)

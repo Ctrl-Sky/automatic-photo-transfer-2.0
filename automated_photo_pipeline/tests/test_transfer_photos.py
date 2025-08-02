@@ -93,7 +93,6 @@ def test_transfer_photos_move_with_start_date_restriction():
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
 
     # Clean up
-    os.remove(f"{PATH_TO_PHOTOS_2}/{"IMG_0034.jpeg"}")
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2025-transfer", ignore_errors=True)
 

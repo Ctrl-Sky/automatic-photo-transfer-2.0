@@ -34,16 +34,10 @@ def get_JPG_date_taken(image_path):
     """
     exif = Image.open(image_path)._getexif()
     if not exif:
-        # Images from instagram will have incorrect birthtime, will move them to unsupported folder
-        if "IMG_" not in os.path.basename(image_path):
-            return "File Format Not Supported"
         return get_date_taken_os(image_path)
     try:
         date = exif[36867]
     except KeyError:
-        # Images from instagram will have incorrect birthtime, will move them to unsupported folder
-        if "IMG_" not in os.path.basename(image_path):
-            return "File Format Not Supported"
         return get_date_taken_os(image_path)
     
     datetime_date = datetime.strptime(date, "%Y:%m:%d %H:%M:%S")

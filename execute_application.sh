@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Keep up to date
 git pull
