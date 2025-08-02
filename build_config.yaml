@@ -1,11 +1,11 @@
 commands:
   execute-app:
     # Can either be "camera" or "phone"
-    device: "camera"
-    path-to-photos: "/Volumes/SD_CARD_1/DCIM/101CANON"
+    device: "phone"
+    path-to-photos: "/Users/sky/Downloads/Sky_iPhone"
     destination-path: "/Volumes/kl"
     # Optional, leave blank if not needed
-    migration-name: "New Table Test"
+    migration-name:
     # Must be in the form of YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
     # Optional, leave blank if not needed
     end-on:
