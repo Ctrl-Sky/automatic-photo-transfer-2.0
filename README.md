@@ -24,4 +24,4 @@ The current supported file types are:
 - MP4
 - MOV
 
-Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted.
+Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted. Will also convert HEIC files into jpeg files.
