@@ -18,7 +18,7 @@ def get_date_taken(image_path):
         return get_HEIC_date_taken(image_path)
     elif image_file_ext == "PNG" or image_file_ext == "MP4" or image_file_ext == "MOV":
         return get_date_taken_os(image_path)
-    elif image_file_ext == "JPG" or image_file_ext == "JPEG":
+    elif image_file_ext == "JPG" or image_file_ext == "JPEG" or image_file_ext == "jpeg" or image_file_ext == "jpg":
         return get_JPG_date_taken(image_path)
     else:
         return "File Format Not Supported"

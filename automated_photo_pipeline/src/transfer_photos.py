@@ -106,17 +106,17 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
                 # method = photo_info[0]
                 date = photo_info[1]
 
-            # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
-            if photo_name.split(".")[1] == "HEIC":
-                jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name, testing=testing)
-                photo_name = jpeg_photo_name
-                path_to_photo = f"{path_to_photos}/{photo_name}"
-
             if date > start_date and image_before_end_on_date(date, end_on):
                 year = date.strftime("%Y")
                 month = date.strftime("%b")
                 day = date.strftime("%d")
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}"
+
+                # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
+                if photo_name.split(".")[1] == "HEIC":
+                    jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name, testing=testing)
+                    photo_name = jpeg_photo_name
+                    path_to_photo = f"{path_to_photos}/{photo_name}"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
                 set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)
