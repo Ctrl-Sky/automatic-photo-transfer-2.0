@@ -92,8 +92,8 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
             if photo_name[:2] == "._":
                 continue
 
-            # .DS_Store is included in directories because of MacOS
-            if photo_name == ".DS_Store":
+            # .DS_Store is included in directories because of MacOS, .AAE files are apple side car for photos edits
+            if photo_name == ".DS_Store" or path_to_photo.split(".")[1] == "AAE":
                 continue
 
             photo_info = get_date_taken(path_to_photo)

@@ -1,6 +1,7 @@
 from transfer_photos import transfer_photos
 from datetime import datetime, timezone
 import os
+from helpers import get_date_taken_os
 
 # from write_to_excel import write_to_migration_table
 # from initialize import initialize_table
@@ -47,11 +48,13 @@ import os
 # filtered_exif = {tag: readable_exif.get(tag, None) for tag in relevant_tags}
 # print(filtered_exif)
 
-PATH_TO_PHOTOS="tests/resources/phone"
-EXTERNAL_HD_PATH = "tests/resources/external_hd"
-PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
+# PATH_TO_PHOTOS="tests/resources/phone"
+# EXTERNAL_HD_PATH = "tests/resources/external_hd"
+# PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
 
-start_date = datetime(2023, 5, 2)
-end_on = ""
+# start_date = datetime(2023, 5, 2)
+# end_on = ""
 
-print(transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on))
+# print(transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on))
+
+print(get_date_taken_os("/Users/sky/Downloads/Sky_iPhone/WUNL5197.JPG"))
