@@ -25,3 +25,8 @@ The current supported file types are:
 - MOV
 
 Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted. Will also convert HEIC files into jpeg files. Will not save edits made to photos.
+
+# Things to note
+- Sending photos over instagram will scrub the metadata(exif) and return it as a JPG
+- Sending photos from apple phone over Imessage will keep file format and metatdata
+- Getting sent a video (.MOV), on a date different from the orginial date taken, will not mess up birthtime value. It will still return the orginial date taken.

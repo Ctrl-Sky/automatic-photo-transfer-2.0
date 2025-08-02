@@ -1,7 +1,7 @@
 from transfer_photos import transfer_photos
 from datetime import datetime, timezone
 import os
-from helpers import get_date_taken_os
+from helpers import get_date_taken_os, get_date_taken
 
 # from write_to_excel import write_to_migration_table
 # from initialize import initialize_table
@@ -57,4 +57,5 @@ from helpers import get_date_taken_os
 
 # print(transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on))
 
-print(get_date_taken_os("/Users/sky/Downloads/Sky_iPhone/WUNL5197.JPG"))
+
+print(get_date_taken("/Users/sky/Downloads/Skys_iPhone/YJGJ8580.JPG"))
