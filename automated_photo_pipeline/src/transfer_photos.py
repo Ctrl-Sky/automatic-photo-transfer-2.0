@@ -1,8 +1,24 @@
 import os
 import shutil
+from PIL import Image
 from datetime import datetime
 from subprocess import call
 from helpers import get_date_taken
+
+def convert_heic_to_jpeg(path_to_heic, heic_name, testing=False):
+
+    # Open HEIF or HEIC file
+    image = Image.open(f"{path_to_heic}/{heic_name}")
+    new_image_name = heic_name.split(".")[0] + '.jpeg'
+    new_path = os.path.join(path_to_heic, new_image_name)
+
+    # Convert to JPEG
+    image.convert('RGB').save(new_path)
+
+    if not testing:
+        os.remove(f"{path_to_heic}/{heic_name}")
+
+    return new_image_name
 
 def is_highest_date(highest_date, image_date):
     if image_date > highest_date:
@@ -39,7 +55,7 @@ def set_new_creation_date(path_to_file, new_date):
     cmd = 'SetFile -d ' + f'"{new_date.strftime("%m/%d/%Y %H:%M:%S")}" ' + f'"{path_to_file}"'
     call(cmd, shell=True)
 
-def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
+def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", testing=False):
     """
     Transfers photos from the specified path to an external hard drive, organizing them by date.
     Copies unsupported files to a separate folder.
@@ -85,6 +101,12 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             else:
                 # method = photo_info[0]
                 date = photo_info[1]
+
+            # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
+            if photo_name.split(".")[1] == "HEIC":
+                jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name, testing=testing)
+                photo_name = jpeg_photo_name
+                path_to_photo = f"{path_to_photos}/{photo_name}"
 
             if date > start_date and image_before_end_on_date(date, end_on):
                 year = date.strftime("%Y")
