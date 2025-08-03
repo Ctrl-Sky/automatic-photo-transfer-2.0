@@ -8,59 +8,46 @@ EXTERNAL_HD_PATH = "tests/resources/external_hd"
 PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
 PATH_TO_PHOTOS_3 = "tests/resources/DCIM/103CANON"
 
-# from write_to_excel import write_to_migration_table
-# from initialize import initialize_table
+# print(get_date_taken(f"{PATH_TO_PHOTOS_2}/IMG_1137.PNG"))
 
-# # transfer_photos(datetime(2024, 6, 4, 11, 54), "/Volumes/kl", "/Volumes/SD_CARD_1/DCIM/100CANON", end_on="2024-07-03 11:56:00")
+def get_mov_timestamps(filename):
+    ''' Get the creation and modification date-time from .mov metadata.
 
-# # print(datetime.now(timezone.utc).astimezone().tzinfo)
-# # datetime.timezone(datetime.timedelta(seconds=36000), 'AEST')
+        Returns None if a value is not available.
+    '''
+    from datetime import datetime as DateTime
+    import struct
 
-# DEVICE = "camera"
-# START_DIR = "/path"
-# START_IMAGE = "something.JPG"
-# START_DATE = "2024-05-05 15:15:15"
-# END_DIR = "/end_path"
-# END_IMAGE = "end.JPG"
-# END_DATE = "2025-05-05 15:15:15"
-# TABLE_PATH = "../tables/test.csv"
-# MIGRATION_NAME = "test"
+    ATOM_HEADER_SIZE = 8
+    # difference between Unix epoch and QuickTime epoch, in seconds
+    EPOCH_ADJUSTER = 2082844800
 
-# # # initialize_table(TABLE_PATH)
-# # write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
-# # write_to_migration_table(DEVICE, START_DIR, START_IMAGE, START_DATE, END_DIR, END_IMAGE, END_DATE, TABLE_PATH)
+    creation_time = None
 
-# print(transfer_photos(START_DATE, "empty", "empty2", end_on=""))
+    # search for moov item
+    with open(filename, "rb") as f:
+        while True:
+            atom_header = f.read(ATOM_HEADER_SIZE)
+            #~ print('atom header:', atom_header)  # debug purposes
+            if atom_header[4:8] == b'moov':
+                break  # found
+            else:
+                atom_size = struct.unpack('>I', atom_header[0:4])[0]
+                f.seek(atom_size - 8, 1)
 
-# from PIL import Image
-# from PIL.ExifTags import TAGS
+        # found 'moov', look for 'mvhd' and timestamps
+        atom_header = f.read(ATOM_HEADER_SIZE)
+        if atom_header[4:8] == b'cmov':
+            raise RuntimeError('moov atom is compressed')
+        elif atom_header[4:8] != b'mvhd':
+            raise RuntimeError('expected to find "mvhd" header.')
+        else:
+            f.seek(4, 1)
+            creation_time = struct.unpack('>I', f.read(4))[0] - EPOCH_ADJUSTER
+            creation_time = DateTime.fromtimestamp(creation_time)
+            if creation_time.year < 1990:  # invalid or censored data
+                creation_time = None
 
-# # Load the image
-# image = Image.open("/Volumes/kl/2025-transfer/Jul/Jul_13/IMG_4218.JPG")
+    return creation_time
 
-# # Extract EXIF data
-# exif_data = image._getexif()
-
-# # Convert EXIF tag IDs to readable names
-# readable_exif = {}
-# if exif_data:
-#     for tag_id, value in exif_data.items():
-#         tag = TAGS.get(tag_id, tag_id)
-#         readable_exif[tag] = value
-
-# # Filter relevant fields
-# relevant_tags = ['DateTimeOriginal', 'DateTimeDigitized', 'DateTime']
-# filtered_exif = {tag: readable_exif.get(tag, None) for tag in relevant_tags}
-# print(filtered_exif)
-
-# PATH_TO_PHOTOS="tests/resources/phone"
-# EXTERNAL_HD_PATH = "tests/resources/external_hd"
-# PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
-
-# start_date = datetime(2023, 5, 2)
-# end_on = ""
-
-# print(transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on))
-
-
-print(get_date_taken(f"{PATH_TO_PHOTOS_2}/IMG_1137.PNG"))
+print(get_mov_timestamps(f"/Users/sky/Downloads/IMG_2136_1754242566780.mov"))

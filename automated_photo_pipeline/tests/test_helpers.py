@@ -1,5 +1,5 @@
 import datetime
-from src.helpers import get_date_taken_os, get_JPG_date_taken, get_HEIC_date_taken, get_date_taken
+from src.helpers import get_date_taken_os, get_JPG_date_taken, get_HEIC_date_taken, get_date_taken, get_MOV_date_taken
 
 PATH_TO_PHOTOS="tests/resources/phone"
 PATH_TO_GOOD_JPG="tests/resources/DCIM/100CANON/IMG_0032.JPG"
@@ -30,6 +30,11 @@ def test_get_JPG_date_taken_yes_exif():
 def test_get_JPG_date_taken_no_exif():
     assert get_JPG_date_taken(f"{PATH_TO_PHOTOS}/IMG_4600.JPG") == ("os", datetime.datetime(2024, 10, 31, 23, 45, 45))
 
+# --------- Test get_MOV_date_taken for diff file types --------- 
+
+def test_get_MOV_date_taken_with_exif():
+    assert get_MOV_date_taken(f"{PATH_TO_PHOTOS}/MOV_Files/IMG_2136.MOV") == ("exif", datetime.datetime(2025, 2, 7, 16, 50, 25))
+
 # --------- Test get_HEIC_date_taken for diff file types --------- 
 def test_get_HEIC_date_taken_yes_exif():
     assert get_HEIC_date_taken(f"{PATH_TO_PHOTOS}/IMG_0034.HEIC") == ("exif", datetime.datetime(2024, 6, 30, 14, 6, 31))
@@ -57,10 +62,7 @@ def test_get_date_taken_MP4():
     assert get_date_taken(f"{PATH_TO_PHOTOS}/JMTO8755.MP4") == ("os", datetime.datetime(2024, 10, 2, 16, 4, 44))
 
 def test_get_date_taken_MOV():
-    assert get_date_taken(f"{PATH_TO_PHOTOS}/IMG_2687.MOV") == ("os", datetime.datetime(2025, 7, 5, 16, 23, 23))
+    assert get_date_taken(f"{PATH_TO_PHOTOS}/IMG_2687.MOV") == ("exif", datetime.datetime(2025, 7, 5, 16, 23, 24))
 
 def test_get_date_taken_unsupported():
     assert get_date_taken(f"{PATH_TO_PHOTOS}/IMG_2687.WHAT") == "File Format Not Supported"
-
-# def test_get_date_taken_copied_file():
-#     assert get_date_taken(f"{PATH_TO_PHOTOS}/2025-transfer/Jul/Jul_06-exif/IMG_0034.HEIC")
