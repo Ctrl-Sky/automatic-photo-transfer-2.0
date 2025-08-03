@@ -96,6 +96,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
             # .DS_Store is included in directories because of MacOS, .AAE files are apple side car for photos edits
             if photo_name == ".DS_Store" or photo_ext == "AAE":
+                count -= 1 # Don't count these files
                 continue
 
             photo_info = get_date_taken(path_to_photo)

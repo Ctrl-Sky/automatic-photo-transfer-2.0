@@ -32,11 +32,14 @@ def get_JPG_date_taken(image_path):
         :return: a tuple with the source ("exif" or "os") and the datetime object of the date taken
         :rtype: tuple[str, datetime.datetime]
     """
-    exif = Image.open(image_path)._getexif()
+    try:
+        exif = Image.open(image_path)._getexif()
+    except AttributeError:
+        exif = Image.open(image_path).getexif()
     if not exif:
         return get_date_taken_os(image_path)
     try:
-        date = exif[36867]
+        date = exif[36867] # Get date taken value
     except KeyError:
         return get_date_taken_os(image_path)
     
