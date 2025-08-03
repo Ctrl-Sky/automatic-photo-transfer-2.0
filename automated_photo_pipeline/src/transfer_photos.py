@@ -79,6 +79,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
     photos = list(os.scandir(path_to_photos))
 
+    files_copied = 0
     count = 0 # Used for printing loading text every 333 photos
     is_heic = False # Used for deleting converted jpeg file
 
@@ -102,6 +103,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             if photo_info == "File Format Not Supported":
                 unsupported_path = f"{external_hd_path}/unsupported"
                 copy_file_to_path(path_to_photo, unsupported_path)
+                files_copied += 1
                 continue
             else:
                 # method = photo_info[0]
@@ -129,6 +131,8 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)
                 set_new_modification_date(f"{new_path_to_photos}/{photo_name}", date)
 
+                files_copied += 1
+
                 # Delete the jpeg file that was converted from a HEIC file in the source destination
                 # Keep the original HEIC file since HEIC can be converted to jpeg but not the other way around
                 if is_heic:
@@ -151,7 +155,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
         if count % 333 == 0:
             print("\nSearching photos...\n")
 
-    print(f"{count} photos looped through")
+    print(f"Copied {files_copied}/{count} files")
     try:
         csv_line = [starter_image, starter_date.strftime("%Y-%m-%d %H:%M:%S"), end_image, end_date.strftime("%Y-%m-%d %H:%M:%S")]
     except NameError:
