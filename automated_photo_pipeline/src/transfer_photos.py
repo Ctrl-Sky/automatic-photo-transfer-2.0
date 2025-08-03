@@ -110,8 +110,9 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             if date > start_date and image_before_end_on_date(date, end_on):
                 year = date.strftime("%Y")
                 month = date.strftime("%b")
+                month_int = date.strftime("%m")
                 day = date.strftime("%d")
-                new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month}/{month}_{day}"
+                new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month_int}.{month}/{month}_{day}"
 
                 # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
                 if photo_ext == "HEIC":

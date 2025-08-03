@@ -5,7 +5,7 @@ commands:
     path-to-photos: "/Users/sky/Downloads/Skys_iPhone"
     destination-path: "/Volumes/kl"
     # Optional, leave blank if not needed
-    migration-name: "Initial Phone Migration"
+    migration-name:
     # Must be in the form of YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
     # Optional, leave blank if not needed
-    end-on: "2025-04-30 20:00:00"
+    end-on:
