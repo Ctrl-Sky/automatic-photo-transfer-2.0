@@ -129,10 +129,10 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 set_new_modification_date(f"{new_path_to_photos}/{photo_name}", date)
 
                 # Delete the jpeg file that was converted from a HEIC file in the source destination
-                # Keep the original HEIC file since HEIC can be converted to jpeg but not the other
-                # way around
+                # Keep the original HEIC file since HEIC can be converted to jpeg but not the other way around
                 if is_heic:
                     os.remove(path_to_photo)
+                    is_heic = False
 
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking

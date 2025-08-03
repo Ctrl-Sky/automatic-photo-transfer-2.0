@@ -67,17 +67,18 @@ def test_transfer_photos_move_all():
     start_date = datetime(2023, 5, 2)
     end_on = ""
 
-    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_0034.jpeg', '2024-06-30 14:06:31','IMG_2687.MOV', '2025-07-05 16:23:23']
-    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
-    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_0034.jpeg', '2024-06-30 14:06:31','JMTO8755.MP4', '2025-08-03 10:54:17']
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
-    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Aug/Aug_03/JMTO8755.MP4")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
+    # Test deletion of jpeg copy in source destination
+    assert os.path.exists(f"{PATH_TO_PHOTOS_2}/IMG_0034.HEIC")
+    assert not os.path.exists(f"{PATH_TO_PHOTOS_2}/IMG_0034.jpeg")
 
     # Clean up
-    os.remove(f"{PATH_TO_PHOTOS_2}/{"IMG_0034.jpeg"}")
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2025-transfer", ignore_errors=True)
 
@@ -85,10 +86,10 @@ def test_transfer_photos_move_with_start_date_restriction():
     start_date = datetime(2024, 10, 5)
     end_on = ""
 
-    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_4600.JPG', '2024-10-31 23:45:45', 'IMG_2687.MOV', '2025-07-05 16:23:23']
-    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_4600.JPG', '2024-10-31 23:45:45', 'JMTO8755.MP4', '2025-08-03 10:54:17']
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
     assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
-    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Aug/Aug_03/JMTO8755.MP4")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
@@ -101,17 +102,15 @@ def test_transfer_photos_move_with_end_on_restriction():
     start_date = datetime(2023, 10, 5)
     end_on = "2024-10-05"
 
-    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_0034.jpeg', '2024-06-30 14:06:31', 'JMTO8755.MP4', '2024-10-02 16:04:44']
-    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
-    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_0034.jpeg', '2024-06-30 14:06:31', 'IMG_1137.PNG', '2024-10-02 08:44:57']
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
-    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Aug/Aug_03/JMTO8755.MP4")
     assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
     assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
     assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
 
     # Clean up
-    os.remove(f"{PATH_TO_PHOTOS_2}/{"IMG_0034.jpeg"}")
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
 
 def test_transfer_photos_move_unsuppored_and_supported():
@@ -120,11 +119,10 @@ def test_transfer_photos_move_unsuppored_and_supported():
     start_date = datetime(2023, 10, 5)
     end_on = ""
 
-    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_0034.jpeg', '2024-06-30 14:06:31', 'IMG_2687.MOV', '2025-07-05 16:23:23']
-    assert not os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
-    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.HEIC")
+    assert transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on) == ['IMG_0034.jpeg', '2024-06-30 14:06:31', 'JMTO8755.MP4', '2025-08-03 10:54:17']
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Jun/Jun_30/IMG_0034.jpeg")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/IMG_1137.PNG")
-    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_02/JMTO8755.MP4")
+    assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Aug/Aug_03/JMTO8755.MP4")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2024-transfer/Oct/Oct_31/IMG_4600.JPG")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Feb/Feb_27/IMG_6050.JPEG")
     assert os.path.exists(f"{EXTERNAL_HD_PATH}/2025-transfer/Jul/Jul_05/IMG_2687.MOV")
@@ -132,7 +130,6 @@ def test_transfer_photos_move_unsuppored_and_supported():
 
     # Clean up
     os.remove(path_to_copy)
-    os.remove(f"{PATH_TO_PHOTOS_2}/{"IMG_0034.jpeg"}")
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2024-transfer", ignore_errors=True)
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/2025-transfer", ignore_errors=True)
     shutil.rmtree(f"{EXTERNAL_HD_PATH}/unsupported", ignore_errors=True)

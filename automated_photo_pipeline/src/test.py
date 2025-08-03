@@ -3,6 +3,11 @@ from datetime import datetime, timezone
 import os
 from helpers import get_date_taken_os, get_date_taken
 
+PATH_TO_PHOTOS="tests/resources/phone"
+EXTERNAL_HD_PATH = "tests/resources/external_hd"
+PATH_TO_PHOTOS_2 = "tests/resources/DCIM/101CANON"
+PATH_TO_PHOTOS_3 = "tests/resources/DCIM/103CANON"
+
 # from write_to_excel import write_to_migration_table
 # from initialize import initialize_table
 
@@ -58,4 +63,4 @@ from helpers import get_date_taken_os, get_date_taken
 # print(transfer_photos(start_date, EXTERNAL_HD_PATH, PATH_TO_PHOTOS_2, end_on))
 
 
-print(get_date_taken("/Users/sky/Downloads/Skys_iPhone/YJGJ8580.JPG"))
+print(get_date_taken(f"{PATH_TO_PHOTOS_2}/IMG_1137.PNG"))
