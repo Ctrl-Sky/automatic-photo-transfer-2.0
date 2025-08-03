@@ -50,4 +50,5 @@ def get_mov_timestamps(filename):
 
     return creation_time
 
-print(get_mov_timestamps(f"/Users/sky/Downloads/IMG_2136_1754242566780.mov"))
+# print(get_mov_timestamps(f"/Users/sky/Downloads/IMG_2136_1754242566780.mov"))
+print(get_date_taken(f"/Volumes/kl/unsupported/video_01-22-2025_18-16-40.mp4"))

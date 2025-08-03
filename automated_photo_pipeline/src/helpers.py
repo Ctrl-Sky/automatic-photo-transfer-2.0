@@ -14,13 +14,13 @@ def get_date_taken(image_path):
         :rtype: tuple[str, datetime.datetime]
     """
     image_file_ext = image_path.split(".")[-1]
-    if image_file_ext == "HEIC":
+    if image_file_ext == "HEIC" or image_file_ext == "heic":
         return get_HEIC_date_taken(image_path)
-    elif image_file_ext == "PNG" or image_file_ext == "MP4":
+    elif image_file_ext == "MP4" or image_file_ext == "mp4":
         return get_date_taken_os(image_path)
     elif image_file_ext == "JPG" or image_file_ext == "JPEG" or image_file_ext == "jpeg" or image_file_ext == "jpg":
         return get_JPG_date_taken(image_path)
-    elif image_file_ext == "MOV":
+    elif image_file_ext == "MOV" or image_file_ext == "mov":
         return get_MOV_date_taken(image_path)
     else:
         return "File Format Not Supported"
@@ -125,6 +125,8 @@ def get_mov_timestamps(filename):
 def get_MOV_date_taken(image_path):
     try:
         datetime_date = get_mov_timestamps(image_path)
+        if datetime_date == None:
+            return get_date_taken_os(image_path)
         return ("exif", datetime_date)
     except:
         return get_date_taken_os(image_path)
