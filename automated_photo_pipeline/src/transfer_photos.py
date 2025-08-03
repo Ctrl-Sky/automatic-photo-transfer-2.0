@@ -5,7 +5,7 @@ from datetime import datetime
 from subprocess import call
 from helpers import get_date_taken
 
-def convert_heic_to_jpeg(path_to_heic, heic_name, testing=False):
+def convert_heic_to_jpeg(path_to_heic, heic_name):
 
     # Open HEIF or HEIC file
     image = Image.open(f"{path_to_heic}/{heic_name}")
@@ -14,9 +14,6 @@ def convert_heic_to_jpeg(path_to_heic, heic_name, testing=False):
 
     # Convert to JPEG
     image.convert('RGB').save(new_path)
-
-    if not testing:
-        os.remove(f"{path_to_heic}/{heic_name}")
 
     return new_image_name
 
@@ -59,7 +56,7 @@ def set_new_modification_date(path_to_file, new_date):
     cmd = 'SetFile -m ' + f'"{new_date.strftime("%m/%d/%Y %H:%M:%S")}" ' + f'"{path_to_file}"'
     call(cmd, shell=True)
 
-def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", testing=False):
+def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
     """
     Transfers photos from the specified path to an external hard drive, organizing them by date.
     Copies unsupported files to a separate folder.
@@ -81,7 +78,10 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
     highest_date = datetime(1990, 1, 1)
 
     photos = list(os.scandir(path_to_photos))
-    count = 0
+
+    count = 0 # Used for printing loading text every 333 photos
+    is_heic = False # Used for deleting converted jpeg file
+
     for photo in photos:
         count += 1
         if photo.is_file():
@@ -115,9 +115,10 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
 
                 # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
                 if photo_ext == "HEIC":
-                    jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name, testing=testing)
+                    jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name)
                     photo_name = jpeg_photo_name
                     path_to_photo = f"{path_to_photos}/{photo_name}"
+                    is_heic = True # Switch to trigger removal after copying
 
                 # Images from instagram will have incorrect birthtime, will move them to specific folder for manual organization
                 if "IMG_" not in photo_name and photo_ext == "JPG":
@@ -126,6 +127,12 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on="", tes
                 copy_file_to_path(path_to_photo, new_path_to_photos)
                 set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)
                 set_new_modification_date(f"{new_path_to_photos}/{photo_name}", date)
+
+                # Delete the jpeg file that was converted from a HEIC file in the source destination
+                # Keep the original HEIC file since HEIC can be converted to jpeg but not the other
+                # way around
+                if is_heic:
+                    os.remove(path_to_photo)
 
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking

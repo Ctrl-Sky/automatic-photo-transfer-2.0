@@ -8,4 +8,4 @@ commands:
     migration-name: "Initial Phone Migration"
     # Must be in the form of YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
     # Optional, leave blank if not needed
-    end-on: "2025-02-01"
+    end-on: "2025-04-30 20:00:00"
