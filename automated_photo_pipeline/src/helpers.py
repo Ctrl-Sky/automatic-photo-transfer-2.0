@@ -16,7 +16,7 @@ def get_date_taken(image_path):
     image_file_ext = image_path.split(".")[-1]
     if image_file_ext == "HEIC" or image_file_ext == "heic":
         return get_HEIC_date_taken(image_path)
-    elif image_file_ext == "MP4" or image_file_ext == "mp4":
+    elif image_file_ext == "MP4" or image_file_ext == "mp4" or image_file_ext == "PNG":
         return get_date_taken_os(image_path)
     elif image_file_ext == "JPG" or image_file_ext == "JPEG" or image_file_ext == "jpeg" or image_file_ext == "jpg":
         return get_JPG_date_taken(image_path)
