@@ -147,10 +147,10 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     highest_date = date
 
         # Every 333 photos, let user know it is still looping
-        if count == 333:
-            count = 0
+        if count % 333 == 0:
             print("\nSearching photos...\n")
 
+    print(f"{count} photos looped through")
     try:
         csv_line = [starter_image, starter_date.strftime("%Y-%m-%d %H:%M:%S"), end_image, end_date.strftime("%Y-%m-%d %H:%M:%S")]
     except NameError:
