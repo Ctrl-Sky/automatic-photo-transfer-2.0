@@ -29,9 +29,3 @@ END_ON=$(yq "$YAML_ROOT.end-on" $YAML_FILE)
 
 # Execute python script to transfer photos
 python3.12 src/main.py --device "$DEVICE" --path_to_photos "$PATH_TO_PHOTOS" --destination_path "$DESTINATION" --migration_name "$MIGRATION" --end_on "$END_ON"
-
-# Break down
-# deactivate
-# git add .
-# git commit -m "(Automated Commit) Job application updated"
-# git push
