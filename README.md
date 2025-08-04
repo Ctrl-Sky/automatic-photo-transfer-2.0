@@ -28,7 +28,7 @@ Any unknown files encountered during the migration will be transfered to the sou
 
 # How to use
 - Fill in the parameters in the `build_config.yaml`
-- Remember to alter the CSV table for any time table changes
+- Remember to alter the CSV table for any timezone changes
 - Run `bash execute_application.sh` in the terminal
 
 # Things to note
