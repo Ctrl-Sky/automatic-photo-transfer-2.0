@@ -2,6 +2,7 @@ from transfer_photos import transfer_photos
 from datetime import datetime, timezone
 import os
 from helpers import get_date_taken_os, get_date_taken
+import transfer_photos
 
 PATH_TO_PHOTOS="tests/resources/phone"
 EXTERNAL_HD_PATH = "tests/resources/external_hd"
@@ -51,4 +52,14 @@ def get_mov_timestamps(filename):
     return creation_time
 
 # print(get_mov_timestamps(f"/Users/sky/Downloads/IMG_2136_1754242566780.mov"))
-print(get_date_taken(f"/Volumes/kl/unsupported/video_01-22-2025_18-16-40.mp4"))
+# print(get_date_taken(f"/Volumes/kl/unsupported/video_01-22-2025_18-16-40.mp4"))
+
+# print(os.environ.get("hello"))
+
+# {366783: "2025-02-02"}
+
+date = datetime(2015, 6, 9)
+new_path_to_photos = "hello"
+
+transfer_photos.set_new_creation_date(new_path_to_photos, date)
+transfer_photos.set_new_modification_date(new_path_to_photos, date)

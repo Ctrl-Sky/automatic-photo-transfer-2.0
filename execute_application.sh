@@ -2,7 +2,7 @@
 set -e
 
 # Keep up to date
-git pull
+# git pull
 
 # Move to correct directory
 cd automated_photo_pipeline

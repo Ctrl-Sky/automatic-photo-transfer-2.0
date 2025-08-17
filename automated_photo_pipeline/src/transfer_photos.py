@@ -129,8 +129,14 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     new_path_to_photos = f"{external_hd_path}/ig_photos"
 
                 copy_file_to_path(path_to_photo, new_path_to_photos)
+
+                # Set new creation/modification date for photo
                 set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)
                 set_new_modification_date(f"{new_path_to_photos}/{photo_name}", date)
+
+                # Set new creation/modification date for folder
+                set_new_creation_date(new_path_to_photos, date)
+                set_new_modification_date(new_path_to_photos, date)
 
                 files_copied += 1
 
