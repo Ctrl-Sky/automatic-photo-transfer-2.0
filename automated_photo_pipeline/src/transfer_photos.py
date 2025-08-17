@@ -92,7 +92,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             path_to_photo = f"{path_to_photos}/{photo_name}"
 
             # iPhones create a HEIC and MOV file for live photos, only keep the HEIC
-            if photo_name == old_photo_name & photo_ext == "MOV":
+            if photo_name == old_photo_name and photo_ext == "MOV":
                 continue
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
@@ -163,7 +163,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     end_date = date
                     highest_date = date
         
-        old_photo_name == photo_name.split()[0]
+        old_photo_name == photo_name.split(".")[0]
 
         # Every 333 photos, let user know it is still looping
         if count % 333 == 0:

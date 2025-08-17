@@ -58,8 +58,10 @@ def get_mov_timestamps(filename):
 
 # {366783: "2025-02-02"}
 
-date = datetime(2015, 6, 9)
-new_path_to_photos = "hello"
+# date = datetime(2015, 6, 9)
+# new_path_to_photos = "hello"
 
-transfer_photos.set_new_creation_date(new_path_to_photos, date)
-transfer_photos.set_new_modification_date(new_path_to_photos, date)
+# transfer_photos.set_new_creation_date(new_path_to_photos, date)
+# transfer_photos.set_new_modification_date(new_path_to_photos, date)
+
+print(get_date_taken_os("/Users/Sky/Downloads/Skys_iPhone/IMG_0007.HEIC"))
