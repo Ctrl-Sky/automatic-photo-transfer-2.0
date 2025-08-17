@@ -26,6 +26,11 @@ The current supported file types are:
 
 Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted. Will also convert HEIC files into jpeg files. Will not save edits made to photos.
 
+# How to use
+- Fill in the parameters in the `build_config.yaml`
+- Remember to alter the CSV table for any timezone changes
+- Run `bash execute_application.sh` in the terminal
+
 # Things to note
 - Sending photos over instagram will scrub the metadata(exif) and return it as a JPG
 - Sending photos from apple phone over Imessage will keep file format and metatdata
