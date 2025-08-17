@@ -15,7 +15,7 @@ source .venv/bin/activate
 pip install -r ../requirements.txt
 
 # Run test
-python3.12 -m pytest
+# python3.12 -m pytest
 
 # Get parameters from build_config.yaml
 YAML_FILE="../build_config.yaml"

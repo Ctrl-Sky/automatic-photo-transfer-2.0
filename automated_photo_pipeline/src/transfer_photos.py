@@ -79,6 +79,7 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
     photos = list(os.scandir(path_to_photos))
 
+    old_photo_name = "" # For checking live photos and only copying the heic and not the MOV
     files_copied = 0
     count = 0 # Used for printing loading text every 333 photos
     is_heic = False # Used for deleting converted jpeg file
@@ -89,6 +90,10 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             photo_name = photo.name
             photo_ext = photo_name.split(".")[-1]
             path_to_photo = f"{path_to_photos}/{photo_name}"
+
+            # iPhones create a HEIC and MOV file for live photos, only keep the HEIC
+            if photo_name == old_photo_name & photo_ext == "MOV":
+                continue
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
             if photo_name[:2] == "._":
@@ -157,6 +162,8 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     end_image = photo_name
                     end_date = date
                     highest_date = date
+        
+        old_photo_name == photo_name.split()[0]
 
         # Every 333 photos, let user know it is still looping
         if count % 333 == 0:

@@ -1,11 +1,11 @@
 commands:
   execute-app:
     # Can either be "camera" or "phone"
-    device: "phone"
-    path-to-photos: "/Users/sky/Downloads/Aarthithans_iPhone"
-    destination-path: "/Users/sky/Downloads/blah"
+    device: "camera"
+    path-to-photos: "/Volumes/NO_NAME/DCIM/101CANON"
+    destination-path: "/Volumes/kl"
     # Optional, leave blank if not needed
-    migration-name: "Migrate Photos from iCloud"
+    migration-name: "Migrate Photos from dad's sd card"
     # Must be in the form of YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
     # Optional, leave blank if not needed
     end-on:
