@@ -125,11 +125,11 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 new_path_to_photos = f"{external_hd_path}/{year}-transfer/{month_int}.{month}/{month}_{day}"
 
                 # Get date_taken when the file is still HEIC, after date_taken is got, convert to jpeg
-                if photo_ext == "HEIC":
-                    jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name)
-                    photo_name = jpeg_photo_name
-                    path_to_photo = f"{path_to_photos}/{photo_name}"
-                    is_heic = True # Switch to trigger removal after copying
+                # if photo_ext == "HEIC":
+                #     jpeg_photo_name = convert_heic_to_jpeg(path_to_photos, photo_name)
+                #     photo_name = jpeg_photo_name
+                #     path_to_photo = f"{path_to_photos}/{photo_name}"
+                #     is_heic = True # Switch to trigger removal after copying
 
                 # Images from instagram will have incorrect birthtime, will move them to specific folder for manual organization
                 if "IMG_" not in photo_name and photo_ext == "JPG":
@@ -145,9 +145,9 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
                 # Delete the jpeg file that was converted from a HEIC file in the source destination
                 # Keep the original HEIC file since HEIC can be converted to jpeg but not the other way around
-                if is_heic:
-                    os.remove(path_to_photo)
-                    is_heic = False
+                # if is_heic:
+                #     os.remove(path_to_photo)
+                #     is_heic = False
 
                 if is_lowest_date(lowest_date, date):
                     # Starter values are written into the csv file for tracking
