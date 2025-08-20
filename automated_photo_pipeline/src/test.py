@@ -64,4 +64,9 @@ def get_mov_timestamps(filename):
 # transfer_photos.set_new_creation_date(new_path_to_photos, date)
 # transfer_photos.set_new_modification_date(new_path_to_photos, date)
 
-print(get_date_taken_os("/Users/Sky/Downloads/Skys_iPhone/IMG_0007.HEIC"))
+# print(get_date_taken_os("/Users/Sky/Downloads/Skys_iPhone/IMG_0007.HEIC"))
+
+image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_17/IMG_0147.jpeg"
+posix_date = os.stat(image_path).st_birthtime
+datetime_date = datetime.fromtimestamp(posix_date)
+print(datetime_date)

@@ -42,9 +42,12 @@ def image_before_end_on_date(image_date, end_on):
         else:
             return False
         
-def copy_file_to_path(file, path):
+def copy_file_to_path(file, path, date=datetime.today):
     if not os.path.exists(path):
         os.makedirs(path, exist_ok=True)
+        # Set new creation/modification date for folder
+        set_new_creation_date(path, date)
+        set_new_modification_date(path, date)
     print(f"Copying {file} to {path}...")
     shutil.copy(file, path)
 
@@ -101,7 +104,6 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
             # .DS_Store is included in directories because of MacOS, .AAE files are apple side car for photos edits
             if photo_name == ".DS_Store" or photo_ext == "AAE":
-                count -= 1 # Don't count these files
                 continue
 
             photo_info = get_date_taken(path_to_photo)
@@ -133,15 +135,11 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                 if "IMG_" not in photo_name and photo_ext == "JPG":
                     new_path_to_photos = f"{external_hd_path}/ig_photos"
 
-                copy_file_to_path(path_to_photo, new_path_to_photos)
+                copy_file_to_path(path_to_photo, new_path_to_photos, date)
 
                 # Set new creation/modification date for photo
                 set_new_creation_date(f"{new_path_to_photos}/{photo_name}", date)
                 set_new_modification_date(f"{new_path_to_photos}/{photo_name}", date)
-
-                # Set new creation/modification date for folder
-                set_new_creation_date(new_path_to_photos, date)
-                set_new_modification_date(new_path_to_photos, date)
 
                 files_copied += 1
 
