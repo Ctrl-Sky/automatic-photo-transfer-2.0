@@ -1,7 +1,7 @@
 import os
 import subprocess
 from datetime import datetime
-from PIL import Image, ExifTags
+from PIL import Image, UnidentifiedImageError
 from pillow_heif import register_heif_opener
 
 def get_date_taken(image_path):
@@ -58,7 +58,10 @@ def get_HEIC_date_taken(image_path):
         :rtype: tuple[str, datetime.datetime]
     """
     register_heif_opener()
-    exif = Image.open(image_path).getexif()
+    try: 
+        exif = Image.open(image_path).getexif()
+    except UnidentifiedImageError: # Catch this error for photos from Aqilah's phone
+        return get_date_taken_os(image_path)
     if not exif:
         return get_date_taken_os(image_path)
     try:

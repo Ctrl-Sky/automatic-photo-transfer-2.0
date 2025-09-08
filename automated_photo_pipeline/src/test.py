@@ -1,7 +1,7 @@
 from transfer_photos import transfer_photos
 from datetime import datetime, timezone
 import os
-from helpers import get_date_taken_os, get_date_taken
+from helpers import get_date_taken_os, get_date_taken, get_MOV_date_taken, get_HEIC_date_taken
 import transfer_photos
 
 PATH_TO_PHOTOS="tests/resources/phone"
@@ -66,7 +66,8 @@ def get_mov_timestamps(filename):
 
 # print(get_date_taken_os("/Users/Sky/Downloads/Skys_iPhone/IMG_0007.HEIC"))
 
-image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_17/IMG_0147.jpeg"
-posix_date = os.stat(image_path).st_birthtime
-datetime_date = datetime.fromtimestamp(posix_date)
-print(datetime_date)
+image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_20/IMG_0215.MOV"
+image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_20/IMG_0215.MOV"
+# print(get_MOV_date_taken(image_path))
+# print(get_date_taken())
+print(get_HEIC_date_taken("/Users/Sky/Downloads/Skys_iPhone/CIZE0295.HEIC"))
