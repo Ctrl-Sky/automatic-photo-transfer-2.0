@@ -1,6 +1,11 @@
 import csv
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+
+def verify_timezone(photo_timezone):
+    current_timezone = datetime.now(timezone.utc).astimezone().tzinfo
+    if photo_timezone != current_timezone:
+        raise Exception("Timezone of photos does not match system timezone, please change it")
 
 def does_path_exist(path):
     """
@@ -49,7 +54,7 @@ def get_end_date_from_table(table_path, unqiue_path):
                 return row[6]
         return "1990-03-24 12:34:56"
 
-def initialize_repo(unique_path, external_hd_path, table_path):
+def initialize_repo(unique_path, external_hd_path, table_path, photo_timezone):
     """
     Initializes the migration repository for the specified device.
     Checks if the external HD path exists, creates the migration table if necessary,
@@ -65,6 +70,7 @@ def initialize_repo(unique_path, external_hd_path, table_path):
     :rtype: list
     :raises Exception: If the device is not supported or the external HD path does not exist.
     """
+    verify_timezone(photo_timezone)
     does_path_exist(external_hd_path)
     does_path_exist(unique_path)
 

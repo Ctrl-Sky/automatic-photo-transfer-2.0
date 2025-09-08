@@ -12,6 +12,7 @@ if __name__ == "__main__":
     parser.add_argument("--device")
     parser.add_argument("--path_to_photos")
     parser.add_argument("--destination_path", default="/Volumes/kl")
+    parser.add_argument("--timezone")
     parser.add_argument("--migration_name", required=False, default="")
     parser.add_argument("--end_on", required=False, default="")
     args = parser.parse_args()
@@ -19,6 +20,7 @@ if __name__ == "__main__":
     device = args.device
     path_to_photos = args.path_to_photos
     destination_path = args.destination_path
+    timezone = args.timezone
     migration_name = args.migration_name
     end_on = args.end_on
     unique_path = path_to_photos
@@ -30,7 +32,7 @@ if __name__ == "__main__":
     else:
         raise Exception(f"{device} is not supported")
 
-    start_date = initialize_repo(path_to_photos, destination_path, table_path)
+    start_date = initialize_repo(path_to_photos, destination_path, table_path, timezone)
     start_and_end_values = transfer_photos(start_date, destination_path, path_to_photos, end_on=end_on)
 
     if start_and_end_values == "did not contain any supported files":

@@ -70,4 +70,4 @@ image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_20/IMG_0215.MOV"
 image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_20/IMG_0215.MOV"
 # print(get_MOV_date_taken(image_path))
 # print(get_date_taken())
-print(get_HEIC_date_taken("/Users/Sky/Downloads/Skys_iPhone/CIZE0295.HEIC"))
+print(datetime.now(timezone.utc).astimezone().tzinfo)
