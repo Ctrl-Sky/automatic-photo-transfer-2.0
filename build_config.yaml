@@ -4,6 +4,7 @@ commands:
     device: "phone"
     path-to-photos: "/Users/Sky/Downloads/Skys_iPhone"
     destination-path: "/Volumes/kl"
+    # Timezone the photos were taken in
     timezone: "HKT"
     # Optional, leave blank if not needed
     migration-name:

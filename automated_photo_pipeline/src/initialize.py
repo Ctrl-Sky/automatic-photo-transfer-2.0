@@ -4,7 +4,9 @@ from datetime import datetime, timezone
 
 def verify_timezone(photo_timezone):
     current_timezone = datetime.now(timezone.utc).astimezone().tzinfo
-    if photo_timezone != current_timezone:
+    if photo_timezone != str(current_timezone):
+        print(f"Inputted Timezone: {photo_timezone}")
+        print(f"System Timezone: {current_timezone}")
         raise Exception("Timezone of photos does not match system timezone, please change it")
 
 def does_path_exist(path):
