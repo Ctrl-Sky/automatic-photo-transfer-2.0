@@ -33,11 +33,11 @@ if __name__ == "__main__":
         raise Exception(f"{device} is not supported")
 
     start_date = initialize_repo(path_to_photos, destination_path, table_path, timezone)
-    # start_and_end_values = transfer_photos(start_date, destination_path, path_to_photos, end_on=end_on)
+    start_and_end_values = transfer_photos(start_date, destination_path, path_to_photos, end_on=end_on)
 
-    # if start_and_end_values == "did not contain any supported files":
-    #     print(f"No photos were moved, nothing written to {table_path}")
-    # else:
-    #     write_to_migration_table(unique_path, start_and_end_values, table_path, migration_name=migration_name)
+    if start_and_end_values == "did not contain any supported files":
+        print(f"No photos were moved, nothing written to {table_path}")
+    else:
+        write_to_migration_table(unique_path, start_and_end_values, table_path, migration_name=migration_name)
         
-    # print("Complete")
+    print("Complete")
