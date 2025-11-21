@@ -3,6 +3,7 @@ import subprocess
 from datetime import datetime
 from PIL import Image, UnidentifiedImageError
 from pillow_heif import register_heif_opener
+import cv2
 
 def get_date_taken(image_path):
     """
@@ -133,3 +134,17 @@ def get_MOV_date_taken(image_path):
         return ("exif", datetime_date)
     except:
         return get_date_taken_os(image_path)
+    
+def get_video_duration(filename):
+    cap = cv2.VideoCapture(filename)
+    frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+
+    # avoid divide-by-zero
+    if fps > 0:
+        duration_sec = frame_count / fps
+    else:
+        duration_sec = None  # fallback
+
+    cap.release()
+    return duration_sec

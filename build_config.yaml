@@ -1,8 +1,10 @@
 commands:
   execute-app:
     # Can either be "camera" or "phone"
-    device: "phone"
-    path-to-photos: "/Users/Sky/Downloads/Skys_iPhone"
+    device: "camera"
+    # Example for phone: "/Users/Sky/Downloads/Skys_iPhone"
+    # Example for camera: "/Volumes/SD_CARD_1/DCIM/101CANON"
+    path-to-photos: "/Volumes/SD_CARD_1/DCIM/101CANON"
     destination-path: "/Volumes/kl"
     # Timezone the photos were taken in
     timezone: "HKT"

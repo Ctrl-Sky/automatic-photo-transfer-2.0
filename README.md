@@ -26,6 +26,11 @@ The current supported file types are:
 
 Any unknown files encountered during the migration will be transfered to the source directory within a folder known as `unsupported`, where it will need to be manually sorted. Will also convert HEIC files into jpeg files. Will not save edits made to photos.
 
+# Reccomended Use
+Run this in photo batches based on timezones. So run the application for all your photos taken in Hong Kong and then run it again on
+al your photos taken in Toronto. This is done to avoid timezone errors. Make sure the inputted timezone value in `build_config.yaml`
+matches the system timezone
+
 # How to use
 - Fill in the parameters in the `build_config.yaml`
 - Remember to alter the CSV table for any timezone changes
@@ -35,3 +40,4 @@ Any unknown files encountered during the migration will be transfered to the sou
 - Sending photos over instagram will scrub the metadata(exif) and return it as a JPG
 - Sending photos from apple phone over Imessage will keep file format and metatdata
 - Getting sent a video (.MOV), on a date different from the orginial date taken, will not mess up birthtime value. It will still return the orginial date taken.
+- Live photos create a HEIC and a MOV file, I don't want the MOV file so as a bandaid fix for skipping live photos, so any MOV file that is less than 3 seconds will be skipped.

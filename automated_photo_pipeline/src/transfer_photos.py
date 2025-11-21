@@ -3,7 +3,7 @@ import shutil
 from PIL import Image
 from datetime import datetime
 from subprocess import call
-from helpers import get_date_taken
+from helpers import get_date_taken, get_video_duration
 
 def convert_heic_to_jpeg(path_to_heic, heic_name):
 
@@ -82,7 +82,6 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
 
     photos = list(os.scandir(path_to_photos))
 
-    old_photo_name = "" # For checking live photos and only copying the heic and not the MOV
     files_copied = 0
     count = 0 # Used for printing loading text every 333 photos
     is_heic = False # Used for deleting converted jpeg file
@@ -95,8 +94,13 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
             path_to_photo = f"{path_to_photos}/{photo_name}"
 
             # iPhones create a HEIC and MOV file for live photos, only keep the HEIC
-            if photo_name.split(".")[0] == old_photo_name and photo_ext == "MOV":
-                continue
+            if photo_ext == "MOV":
+                video_duration = get_video_duration(path_to_photo)
+                # Base rule: Because its super annoying trying to detect if a video is from a live photo
+                # I am just stating if a vidoe is less than 3 seconds and is a MOV file, then assume it
+                # is a part of a live photo and skip it.
+                if video_duration < 3:
+                    continue
 
             # MacOS creates files that start with ._ to contain even more metadata of specific files
             if photo_name[:2] == "._":
@@ -160,8 +164,6 @@ def transfer_photos(start_date, external_hd_path, path_to_photos, end_on=""):
                     end_image = photo_name
                     end_date = date
                     highest_date = date
-
-        old_photo_name = photo_name.split(".")[0]
 
         # Every 333 photos, let user know it is still looping
         if count % 333 == 0:

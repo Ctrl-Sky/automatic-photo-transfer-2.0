@@ -66,8 +66,34 @@ def get_mov_timestamps(filename):
 
 # print(get_date_taken_os("/Users/Sky/Downloads/Skys_iPhone/IMG_0007.HEIC"))
 
-image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_20/IMG_0215.MOV"
-image_path = "/Volumes/kl/2025-transfer/08.Aug/Aug_20/IMG_0215.MOV"
+image_path = "/Volumes/kl/2025-transfer1/08.Aug/Aug_16/IMG_0010.MOV"
 # print(get_MOV_date_taken(image_path))
 # print(get_date_taken())
-print(datetime.now(timezone.utc).astimezone().tzinfo)
+# print(datetime.now(timezone.utc).astimezone().tzinfo)
+
+import subprocess
+
+# def get_length(filename):
+#     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+#                              "format=duration", "-of",
+#                              "default=noprint_wrappers=1:nokey=1", filename],
+#         stdout=subprocess.PIPE,
+#         stderr=subprocess.STDOUT)
+#     return float(result.stdout)
+
+def with_opencv(filename):
+    import cv2
+    cap = cv2.VideoCapture(filename)
+    frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+
+    # avoid divide-by-zero
+    if fps > 0:
+        duration_sec = frame_count / fps
+    else:
+        duration_sec = None  # fallback
+
+    cap.release()
+    print("frames:", frame_count, "fps:", fps, "duration(s):", duration_sec)
+
+with_opencv(image_path)
