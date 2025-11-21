@@ -1,5 +1,5 @@
 import datetime
-from src.helpers import get_date_taken_os, get_JPG_date_taken, get_HEIC_date_taken, get_date_taken, get_MOV_date_taken
+from src.helpers import get_date_taken_os, get_JPG_date_taken, get_HEIC_date_taken, get_date_taken, get_MOV_date_taken, get_video_duration
 
 PATH_TO_PHOTOS="tests/resources/phone"
 PATH_TO_GOOD_JPG="tests/resources/DCIM/100CANON/IMG_0032.JPG"
@@ -66,3 +66,8 @@ def test_get_date_taken_MOV():
 
 def test_get_date_taken_unsupported():
     assert get_date_taken(f"{PATH_TO_PHOTOS}/IMG_2687.WHAT") == "File Format Not Supported"
+
+# --------- Test get_video_duration --------- 
+def test_get_video_duration_live():
+    assert round(get_video_duration(f"{PATH_TO_PHOTOS}/live_photos/live_photo.MOV"), 2) == 2.42
+

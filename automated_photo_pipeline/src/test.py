@@ -94,6 +94,6 @@ def with_opencv(filename):
         duration_sec = None  # fallback
 
     cap.release()
-    print("frames:", frame_count, "fps:", fps, "duration(s):", duration_sec)
+    return duration_sec
 
-with_opencv(image_path)
+print(with_opencv(image_path))
